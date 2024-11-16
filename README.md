@@ -1,25 +1,61 @@
-### Build rich content websites with Markdown and React
+# Nlogk
 
-Code Hike is an open-source library that bridges the gap between Markdown and React to help you create technical content that takes advantage of the modern web.
+This project is designed to provide an enjoyable and interactive learning experience for algorithms and system design. 
 
-**Docs: https://codehike.org/docs**
+*This project is inspired by https://gpt.pomb.us/*
 
-#### Quick Start
+## Features
 
-Try it online on [StackBlitz](https://stackblitz.com/github/code-hike/v1-starter?file=app%2Fpage.mdx). Or clone the Code Hike starter:
+- **Interactive Learning:** Work with algorithms and system design ideas through simple exercises and get instant feedback.
 
-```bash
-npx create-next-app -e https://github.com/code-hike/v1-starter
-```
+- **Fast and Easy to Use:** With Fumadocus and CodeHike, our platform makes learning quick and smooth.
 
-<!-- #### Powered by
+- **Built-in Functions:** Use ready-made functions to learn how they work. You can change and test them to see what happens right away.
 
-[![Vercel](https://user-images.githubusercontent.com/1911623/145199399-68b8cd57-c331-4c50-81a2-8c491fb7c0a5.png#gh-dark-mode-only)](https://vercel.com/?utm_source=codehike&utm_campaign=oss#gh-dark-mode-only)
-[![Vercel](https://user-images.githubusercontent.com/1911623/145199467-f07416cf-2ed5-4c6f-a4e1-bbcaabbec603.png#gh-light-mode-only)](https://vercel.com/?utm_source=codehike&utm_campaign=oss#gh-light-mode-only)
-![spacer](https://user-images.githubusercontent.com/1911623/145202317-0bcfb3ed-403c-4737-a781-2eeb6b796e8b.png)
-[![BrowserStack](https://user-images.githubusercontent.com/1911623/145201865-9786b79a-c532-41f7-8da0-91334b53f380.png#gh-dark-mode-only)](https://www.browserstack.com/#gh-dark-mode-only)
-[![BrowserStack](https://user-images.githubusercontent.com/1911623/145201872-8940020c-5659-4066-9a0b-0eb25ace3e61.png#gh-light-mode-only)](https://www.browserstack.com/#gh-light-mode-only) -->
+- **Step-by-Step Code Templates:** Use our clear code templates to help you learn how to study code templates and specify algorithms step by step.
 
-#### License
+## Getting Started
 
+### Install Dependencies:
+
+Make sure you have the necessary dependencies installed. You can typically do this with:
+
+	npm install
+
+### Run the Application:
+Run the app in development mode and see `http://localhost:3000/docs`
+
+	npm run dev
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+- [ ] Add Scrollycoding for code templates
+- [ ] Add Tooltip to display example
+- [ ] Multi-language Support
+    - [ ] Chinese
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch 
+3. Commit your Changes 
+4. Push to the Branch
+5. Open a Pull Request
+
+
+<!-- LICENSE -->
+## License
 MIT
+
+
+<!-- CONTACT -->
+## Contact
+
+contact@osjobs.net
