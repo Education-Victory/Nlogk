@@ -1,38 +1,37 @@
 {
+  "name": "with-fumadocs",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "turbo build --filter=codehike...",
-    "web": "turbo dev --filter=web --filter=codehike... ",
-    "test": "turbo test",
-    "clean": "turbo clean && rm -rf node_modules",
-    "format": "prettier --write \"**/*.{ts,tsx,md,mdx}\"",
-    "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "changeset publish",
-    "canary": "pkg-pr-new publish --json=canary.json --comment=off --compact './packages/codehike'"
+    "build": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "postinstall": "fumadocs-mdx"
+  },
+  "dependencies": {
+    "@radix-ui/react-tooltip": "^1.1.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "codehike": "^1.0.4",
+    "fumadocs-core": "14.1.1",
+    "fumadocs-mdx": "11.1.1",
+    "fumadocs-ui": "14.1.1",
+    "lucide-react": "^0.456.0",
+    "next": "15.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@changesets/read": "0.6.1",
-    "@changesets/cli": "2.27.1",
-    "@changesets/changelog-github": "0.5.0",
-    "@octokit/action": "7.0.0",
-    "@octokit/rest": "21.0.2",
-    "@actions/exec": "1.1.1",
-    "@actions/github": "6.0.0",
-    "prettier": "^3.1.1",
-    "turbo": "^1.11.2",
-    "pkg-pr-new": "0.0.24",
-    "human-id": "4.1.1",
-    "unified": "11.0.5",
-    "remark-parse": "11.0.0",
-    "remark-stringify": "11.0.0",
-    "mdast-util-to-string": "4.0.0"
-  },
-  "packageManager": "pnpm@9.7.1",
-  "repository": "code-hike/codehike",
-  "homepage": "https://codehike.org",
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/code-hike"
+    "@types/mdx": "^2.0.13",
+    "@types/node": "22.8.1",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
   }
 }
