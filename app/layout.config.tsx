@@ -1,21 +1,15 @@
-import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared"
+import { type BaseLayoutProps, type DocsLayoutProps } from "fumadocs-ui/layout"
+import { pageTree } from "@/app/source"
 
-/**
- * Shared layout configurations
- *
- * you can configure layouts individually from:
- * Home Layout: app/(home)/layout.tsx
- * Docs Layout: app/docs/layout.tsx
- */
+// shared configuration
 export const baseOptions: BaseLayoutProps = {
   nav: {
     title: "Fumadocs + Code Hike",
   },
-  links: [
-    {
-      text: "Documentation",
-      url: "/docs",
-      active: "nested-url",
-    },
-  ],
+}
+
+// docs layout configuration
+export const docsOptions: DocsLayoutProps = {
+  ...baseOptions,
+  tree: pageTree,
 }

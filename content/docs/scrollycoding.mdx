@@ -1,23 +1,29 @@
 ---
-title: Scrollycoding
-description: Scrollycoding
+title: Binary Search
+description: Binary Search 101
 full: true
 ---
 
 import { Scrollycoding } from "@/components/scrollycoding"
 import { CodeWithTooltips } from "@/components/codewithtooltips"
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus elit, tincidunt consectetur auctor ac, dignissim eget dolor. Integer magna ante, dictum ut posuere sed, faucibus quis risus.
+## Use Cases
 
-Phasellus id dolor lacinia, commodo nisl non, condimentum ante. Nam diam augue, tempor quis condimentum eget, luctus vitae felis. Aenean maximus ultrices massa ac viverra. Nullam tellus enim, tincidunt ac ligula eu, placerat vulputate justo. Vivamus non dui malesuada, mattis dolor vitae, aliquam ipsum. Sed dapibus nibh nisi, sit amet consectetur sapien scelerisque at.
+| Use Case  | Description   | Example                                        |
+|-----------|-------------|------------------------------------------------|
+| Finding the First Occurrence of an Element  | Given a **sorted array** with duplicate elements, find the index of the first occurrence of a value. | In the array [1, 2, 2, 2, 3], the first index of 2 is 1. |
+| Finding the First Element Greater Than or Equal to a Target | Find the smallest element in a sorted array that is **greater than or equal** to a given value.     | In the array [1, 3, 5, 7], for target 4, the lower bound returns index 2 (element 5). |
+| Finding Insertion Points                    | Use the lower bound to determine the correct index for **inserting a new element** while maintaining sorted order. | In the array [1, 3, 5, 7], to insert 4, the lower bound returns 2, indicating 4 should be placed before 5. |
 
-<br/>
+
+### Code Template
+
 
 <Scrollycoding>
 
-## !!steps A Game of Thrones
+## !!steps Initializing search range
 
-A Game of Thrones is the first book in the A Song of Ice and Fire series by George R.R. Martin. Set in a world where seasons last for years, it introduces a complex plot and a wide cast of characters, ranging from noble families vying for the Iron Throne to the supernatural threats in the North.
+Binary Search 
 
 
 ### !sticker
@@ -25,35 +31,29 @@ A Game of Thrones is the first book in the A Song of Ice and Fire series by Geor
 <CodeWithTooltips>
 
 ```js !code
-// !tooltip[/lorem/] description
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit
-  dolor = sit - amet(dolor)
-  // !tooltip[/consectetur/] inspect
-  return sit ? consectetur(ipsum) : []
-}
+def lower_bound(nums, target):
+    // !tooltip[/right/] right
+    left, right = 0, len(nums)
+    // !tooltip[/</] small
+    while left < right:
+    	...
+
 ```
 
-## !!tooltips description
+## !!tooltips right
 
-### Hello world
+1. The possible results must be within the range [left, right)
+2. The nums[right] is not accessable.
 
-Lorem ipsum **dolor** sit amet `consectetur`.
+## !!tooltips small
 
-Adipiscing elit _sed_ do eiusmod.
+1. The possible results must be within the range [left, right)
+2. The nums[right] is not accessable.
 
-## !!tooltips inspect
-
-```js
-function consectetur(ipsum) {
-  const { a, b } = ipsum
-  return a + b
-}
-```
 
 </CodeWithTooltips>
 
-## !!steps B Clash of Kings
+## !!steps Update search Range
 
 A Clash of Kings, the second book in the series, continues the epic saga. The Seven Kingdoms are plunged into war, with kings rising and falling. Meanwhile, Daenerys Targaryen seeks to return to Westeros with her growing dragons.
 
@@ -61,30 +61,55 @@ A Clash of Kings, the second book in the series, continues the epic saga. The Se
 
 <CodeWithTooltips>
 
-{/* prettier-ignore */}
 ```js !code
-const houses = [
-  "Stark",
-  "Lannister",
-  "Baratheon",
-  "Targaryen",
-]
+def lower_bound(nums, target):
+    left, right = 0, len(nums)
+    while left < right:
+    	mid = (left + right) // 2
+        if valid(nums[mid], target):
+            right = mid
+        else:
+            left = mid + 1
+    return left
 
-const clash = () => {
-  const winner =
-    houses[
-      Math.floor(
-        Math.random() * houses.length,
-      )
-    ]
-  return `${winner} wins the battle!`
-}
+```
 
-console.log(clash())
+</CodeWithTooltips>
+
+
+## !!steps Implenent Valid Function
+
+Implenent valid function
+
+### !sticker
+
+<CodeWithTooltips>
+
+```js !code
+def lower_bound(nums, target):
+    left, right = 0, len(nums)
+    while left < right:
+    	mid = (left + right) // 2
+        if valid(nums[mid], target):
+            right = mid
+        else:
+            left = mid + 1
+    return left
+
+def valid(num, target):
+    return num >= target
+
 ```
 
 </CodeWithTooltips>
 
 </Scrollycoding>
 
-Quisque id pretium neque. Vestibulum metus orci, pretium nec varius convallis, viverra quis urna. Praesent luctus, purus nec tempus placerat, justo lorem auctor ligula, ut condimentum tellus velit ac erat. Fusce ut dictum libero. Vestibulum ipsum mauris, cursus sed tortor at, rhoncus viverra ipsum. Donec odio dolor, varius quis congue posuere, tempor et justo. Praesent at scelerisque metus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed malesuada leo vitae mauris eleifend condimentum. Proin auctor, ex ac aliquam gravida, felis felis lacinia libero, efficitur aliquet nulla neque sed elit. Vestibulum congue aliquam risus, sit amet rutrum magna euismod ac. Integer posuere neque nec ex sollicitudin rhoncus.
+## Fun facts
+
+> Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky — Donald Knuth
+
+When Jon Bentley assigned binary search as a problem in a course for professional programmers, he found that ninety percent failed to provide a correct solution after several hours of working on it, mainly because the incorrect implementations failed to run or returned a wrong answer in rare edge cases. A study published in 1988 shows that accurate code for it is only found in five out of twenty textbooks. Furthermore, Bentley's own implementation of binary search, published in his 1986 book Programming Pearls, contained an overflow error that remained undetected for over twenty years. The Java programming language library implementation of binary search had the same overflow bug for more than nine years. 
+
+### Resources
+- [Wikipedia - Binary_search](https://en.wikipedia.org/wiki/Binary_search#Implementation_issues)

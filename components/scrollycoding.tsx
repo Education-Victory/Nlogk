@@ -4,11 +4,10 @@ import {
   Selectable,
   SelectionProvider,
 } from "codehike/utils/selection"
-import { Block, CodeBlock, parseProps, parseRoot } from "codehike/blocks"
+import { Block, CodeBlock, parseProps } from "codehike/blocks"
 import { Pre, RawCode, highlight } from "codehike/code"
 
 import { tokenTransitions } from "@/components/annotations/token-transitions"
-import { tooltip } from "@/components/annotations/tooltip"
 import { wordWrap } from "./annotations/word-wrap"
 
 const Schema = Block.extend({
