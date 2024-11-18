@@ -7,6 +7,14 @@ full: true
 import { Scrollycoding } from "@/components/scrollycoding"
 import { CodeWithTooltips } from "@/components/codewithtooltips"
 
+## Fun facts
+
+> Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky — Donald Knuth
+
+When Jon Bentley assigned binary search as a problem in a course for professional programmers, he found that ninety percent failed to provide a correct solution after several hours of working on it, mainly because the incorrect implementations failed to run or returned a wrong answer in rare edge cases. A study published in 1988 shows that accurate code for it is only found in five out of twenty textbooks. Furthermore, Bentley's own implementation of binary search, published in his 1986 book Programming Pearls, contained an overflow error that remained undetected for over twenty years. The Java programming language library implementation of binary search had the same overflow bug for more than nine years. 
+
+- [Wikipedia - Binary_search](https://en.wikipedia.org/wiki/Binary_search#Implementation_issues)
+
 ## Use Cases
 
 | Use Case  | Description   | Example                                        |
@@ -16,14 +24,15 @@ import { CodeWithTooltips } from "@/components/codewithtooltips"
 | Finding Insertion Points                    | Use the lower bound to determine the correct index for **inserting a new element** while maintaining sorted order. | In the array [1, 3, 5, 7], to insert 4, the lower bound returns 2, indicating 4 should be placed before 5. |
 
 
-### Code Template
+## Code Template
 
 
 <Scrollycoding>
 
 ## !!steps Initializing search range
 
-Binary Search 
+1. The element we are looking for is in the range `[left, right)`. *Note: the right boundary is not included.*
+2. Use \< instead of \<= to prevent infinite loop
 
 
 ### !sticker
@@ -37,25 +46,22 @@ def lower_bound(nums, target):
     // !tooltip[/</] small
     while left < right:
     	...
-
 ```
 
 ## !!tooltips right
 
-1. The possible results must be within the range [left, right)
-2. The nums[right] is not accessable.
+The nums[right] is not accessable.
 
 ## !!tooltips small
 
-1. The possible results must be within the range [left, right)
-2. The nums[right] is not accessable.
-
+Use \< instead of \<=
 
 </CodeWithTooltips>
 
 ## !!steps Update search Range
 
-A Clash of Kings, the second book in the series, continues the epic saga. The Seven Kingdoms are plunged into war, with kings rising and falling. Meanwhile, Daenerys Targaryen seeks to return to Westeros with her growing dragons.
+3. Reduce the search range **by half**
+4. Update the left or right boundary based on the valid() function.
 
 ### !sticker
 
@@ -65,21 +71,29 @@ A Clash of Kings, the second book in the series, continues the epic saga. The Se
 def lower_bound(nums, target):
     left, right = 0, len(nums)
     while left < right:
-    	mid = (left + right) // 2
+        // !tooltip[/mid/] mid
+    	mid = left + (right - left) // 2
         if valid(nums[mid], target):
             right = mid
         else:
             left = mid + 1
     return left
 
+def valid(num, target):
+    ...
+
 ```
+
+## !!tooltips mid
+
+In Java and C++, be careful because there might be problems with integer overflow.
 
 </CodeWithTooltips>
 
 
 ## !!steps Implenent Valid Function
 
-Implenent valid function
+1. Implenent valid function based on problem requirements
 
 ### !sticker
 
@@ -89,7 +103,7 @@ Implenent valid function
 def lower_bound(nums, target):
     left, right = 0, len(nums)
     while left < right:
-    	mid = (left + right) // 2
+    	mid = left + (right - left) // 2
         if valid(nums[mid], target):
             right = mid
         else:
@@ -105,11 +119,14 @@ def valid(num, target):
 
 </Scrollycoding>
 
-## Fun facts
 
-> Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky — Donald Knuth
 
-When Jon Bentley assigned binary search as a problem in a course for professional programmers, he found that ninety percent failed to provide a correct solution after several hours of working on it, mainly because the incorrect implementations failed to run or returned a wrong answer in rare edge cases. A study published in 1988 shows that accurate code for it is only found in five out of twenty textbooks. Furthermore, Bentley's own implementation of binary search, published in his 1986 book Programming Pearls, contained an overflow error that remained undetected for over twenty years. The Java programming language library implementation of binary search had the same overflow bug for more than nine years. 
+## Related Problem
+1. [69. Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
+2. [278. First Bad Version](https://leetcode.com/problems/first-bad-version/description/)
+2. [153. Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
+2. [852. Peak Index in a Mountain Array](https://leetcode.com/problems/peak-index-in-a-mountain-array/description/)
+2. [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/description/)
 
-### Resources
-- [Wikipedia - Binary_search](https://en.wikipedia.org/wiki/Binary_search#Implementation_issues)
+## Resources
+- [Binary Search Animated - Youtube](https://www.youtube.com/watch?v=eVuPCG5eIr4)
