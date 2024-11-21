@@ -7,14 +7,6 @@ full: true
 import { Scrollycoding } from "@/components/scrollycoding"
 import { CodeWithTooltips } from "@/components/codewithtooltips"
 
-## Fun facts
-
-> Although the basic idea of binary search is comparatively straightforward, the details can be surprisingly tricky — Donald Knuth
-
-When Jon Bentley assigned binary search as a problem in a course for professional programmers, he found that ninety percent failed to provide a correct solution after several hours of working on it, mainly because the incorrect implementations failed to run or returned a wrong answer in rare edge cases. A study published in 1988 shows that accurate code for it is only found in five out of twenty textbooks. Furthermore, Bentley's own implementation of binary search, published in his 1986 book Programming Pearls, contained an overflow error that remained undetected for over twenty years. The Java programming language library implementation of binary search had the same overflow bug for more than nine years. 
-
-- [Wikipedia - Binary_search](https://en.wikipedia.org/wiki/Binary_search#Implementation_issues)
-
 ## Use Cases
 
 | Use Case  | Description   | Example                                        |
@@ -60,8 +52,8 @@ Use \< instead of \<=
 
 ## !!steps Update search Range
 
-3. Reduce the search range **by half**
-4. Update the left or right boundary based on the valid() function.
+3. Reduce the search range by half
+4. Update the left or right boundary based on the valid() function. (The code template will return the first `valid` element)
 
 ### !sticker
 
@@ -93,7 +85,7 @@ In Java and C++, be careful because there might be problems with integer overflo
 
 ## !!steps Implenent Valid Function
 
-1. Implenent valid function based on problem requirements
+5. Implenent valid function based on problem requirements.
 
 ### !sticker
 
@@ -119,6 +111,9 @@ def valid(num, target):
 
 </Scrollycoding>
 
+## Issues and consideration
+- **Return Value:** Decide what the function should return if the target value is not found. Common practices include returning the index of the first element greater than the target or returning a sentinel value (like -1)
+- **Custom Comparators:** If using custom data types, ensure that the comparator correctly defines the ordering. This is crucial for the accuracy of the binary search.
 
 
 ## Related Problem
