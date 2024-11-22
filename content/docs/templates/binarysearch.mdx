@@ -31,11 +31,11 @@ import { CodeWithTooltips } from "@/components/codewithtooltips"
 
 <CodeWithTooltips>
 
-```js !code
+```python !code
 def lower_bound(nums, target):
-    // !tooltip[/right/] right
+    # !tooltip[/right/] right
     left, right = 0, len(nums)
-    // !tooltip[/</] small
+    # !tooltip[/</] small
     while left < right:
     	...
 ```
@@ -59,11 +59,11 @@ Use \< instead of \<=
 
 <CodeWithTooltips>
 
-```js !code
+```python !code
 def lower_bound(nums, target):
     left, right = 0, len(nums)
     while left < right:
-        // !tooltip[/mid/] mid
+        # !tooltip[/mid/] mid
     	mid = left + (right - left) // 2
         if valid(nums[mid], target):
             right = mid
@@ -91,7 +91,7 @@ In Java and C++, be careful because there might be problems with integer overflo
 
 <CodeWithTooltips>
 
-```js !code
+```python !code
 def lower_bound(nums, target):
     left, right = 0, len(nums)
     while left < right:

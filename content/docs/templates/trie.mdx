@@ -1,0 +1,164 @@
+---
+title: Trie
+description: Trie 101
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+import { CodeWithTooltips } from "@/components/codewithtooltips"
+
+## Use Cases for Trie Data Structures
+
+| Use Case  | Description  | Example  |
+|-----------|-----------|-----------|
+| Autocomplete Suggestions  | Provide real-time suggestions as users type in a search box.   | Typing "app" in a search bar could suggest "apple," "application," and "appetizer."        |
+| Prefix Matching    | Efficiently find all words in a dataset that start with a given prefix.   | Given the prefix "pre," the Trie can return "prefix," "predecessor," and "presentation."   |
+| Data Compression   | Implement algorithms like Lempel-Ziv (used in formats like ZIP) to store repeated patterns. | Use a Trie to store patterns of strings for efficient compression. |
+
+
+
+## Code Template
+
+
+<Scrollycoding>
+
+## !!steps Class Initializing
+
+1. Initializes an empty dictionary to hold child nodes for each character.
+2. Sets a boolean flag to indicate if this node marks the end of a valid word.
+
+### !sticker
+
+<CodeWithTooltips>
+
+```python !code
+class TrieNode:
+    def __init__(self):
+        # !tooltip[/26/] children
+        self.children = {}
+        self.is_end = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+```
+
+</CodeWithTooltips>
+
+## !!steps Insert A New Word
+
+3. Starts at the root and iterates through each character in the word.
+4. If a character is not already a child, it creates a new `TrieNode` for that character.
+
+
+### !sticker
+
+<CodeWithTooltips>
+
+```python !code
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end = True
+```
+
+</CodeWithTooltips>
+
+
+## !!steps Internal Search
+
+5. Implement an internal method checks if a given prefix exists in the Trie.
+
+### !sticker
+
+<CodeWithTooltips>
+
+```python !code
+class TrieNode:
+    def __init__(self):
+        ...
+
+class Trie:
+    def __init__(self):
+        ...
+
+    def insert(self, word):
+        ...
+
+    def _search_prefix(self, prefix):
+        node = self.root
+        for char in prefix:
+            if char not in node.children:
+                return False
+            node = node.children[char]
+        return node
+```
+
+</CodeWithTooltips>
+
+## !!steps Search By Prefix Or Word
+
+5. Use `_search_prefix` function to check if given `prefix` or `word` exists in the Trie.
+
+### !sticker
+
+<CodeWithTooltips>
+
+```python !code
+class TrieNode:
+    def __init__(self):
+        ...
+
+class Trie:
+    def __init__(self):
+        ...
+
+    def insert(self, word):
+        ...
+
+    def _search_prefix(self, prefix):
+        node = self.root
+        for char in prefix:
+            if char not in node.children:
+                return False
+            node = node.children[char]
+        return node
+
+    def startsWith(self, prefix):
+        return bool(self._search_prefix(prefix))
+
+    def search(self, word):
+        node = self._search_prefix(word)
+        return node and node.is_end
+```
+
+</CodeWithTooltips>
+
+</Scrollycoding>
+
+## Issues and consideration
+- **Concurrency:** The current implementation is not **thread-safe**, which can lead to issues if multiple threads modify the Trie simultaneously. Implement **locking mechanisms** or use concurrent data structures if the Trie will be accessed or modified in a multi-threaded environment.
+- **Balancing Trade-offs:** The choice between a standard Trie and more advanced structures (like a **suffix tree** or a **compressed Trie**) can affect performance and complexity. Analyze the specific requirements of your application (e.g., search speed, memory efficiency) to choose the most appropriate data structure.
+
+
+## Related Problem
+1. [208. Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree/description/)
+2. [139. Word Break](https://leetcode.com/problems/word-break/description/)
+3. [720. Longest Word in Dictionary](https://leetcode.com/problems/longest-word-in-dictionary/description/)
+
+## Resources
+- [Trie Data Structure (EXPLAINED)](https://www.youtube.com/watch?v=-urNrIAQnNo)
+
+
