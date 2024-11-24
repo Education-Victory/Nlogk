@@ -1,0 +1,140 @@
+---
+title: Sliding Window - Longest Valid
+description: Sliding Window - Longest Valid 101
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+import { CodeWithTooltips } from "@/components/codewithtooltips"
+
+## Use Cases
+
+| Use Case  | Description   | Example                                        |
+|-----------|-------------|------------------------------------------------|
+| Finding the Longest Substring Without Repeating Characters | Given a string, find the length of the longest substring that contains no repeating characters.   | For the string "abcabcbb", the longest substring without repeating characters is "abc", with a length of 3. |
+| Finding the Longest Valid Parentheses      | Given a string containing just the characters '(' and ')', find the length of the longest valid parentheses substring. | For the string "(()())", the longest valid parentheses substring is "(()())", with a length of 6. |
+| Finding the Longest Subarray with a Given Sum | Given an array of integers, find the length of the longest contiguous subarray that sums to a specified value. | In the array [1, -1, 5, -2, 3] with a target sum of 3, the longest subarray is [1, -1, 5, -2], with a length of 4. |
+
+
+## Code Template
+
+
+<Scrollycoding>
+
+## !!steps  Initializes variables
+1. Initializes `res` for the longest valid substring length, `left` as the sliding window's start, and `state` to track unique valid elements.
+
+
+### !sticker
+
+<CodeWithTooltips>
+
+```python !code
+def longest_valid(string):
+    res = 0
+    left = 0
+    # !tooltip[/defaultdict/] defaultdict
+    state = defaultdict(int)
+```
+
+## !!tooltips defaultdict
+
+This initializes state as a defaultdict where each new character automatically starts with a count of 0.
+
+</CodeWithTooltips>
+
+## !!steps Loop Iterates
+
+2. This loop iterates through the `string` and adds it to the `state` set, ensuring that only unique valid elements are tracked as the sliding window progresses.
+
+### !sticker
+
+<CodeWithTooltips>
+
+```python !code
+def longest_valid(string):
+    res = 0
+    left = 0
+    state = defaultdict(int)
+    for right in range(len(string)):
+        state[string[right]] += 1
+```
+
+</CodeWithTooltips>
+
+
+## !!steps Sliding Window
+
+3. This loop checks if the current `state` is `valid` and removes string from the `left` until it becomes valid, shrinking the window as needed.
+
+### !sticker
+
+<CodeWithTooltips>
+
+```python !code
+def longest_valid(string):
+    res = 0
+    left = 0
+    state = defaultdict(int)
+    for right in range(len(string)):
+        state[string[right]] += 1
+        while not valid(state):
+            state[strings[left]] -= 1
+            if state[string[left]] == 0:
+                del state[string[left]]
+            left += 1
+        res = max(res, right - left + 1)
+
+    # Update the result with the maximum length of valid substring found
+    return res
+```
+
+</CodeWithTooltips>
+
+## !!steps Implement valid() Function
+
+4. Implenent valid function based on problem requirements.
+
+### !sticker
+
+<CodeWithTooltips>
+
+```python !code
+def longest_valid(string):
+    res = 0
+    left = 0
+    state = defaultdict(int)
+    for right in range(len(string)):
+        state[string[right]] += 1
+        while not valid(state):
+            state[strings[left]] -= 1
+            left += 1
+
+        # Update the result with the maximum length of valid substring found
+        res = max(res, right - left + 1)
+    return res
+
+def valid(state):
+    # A valid state is one where all elements have a count of 1 (unique)
+    return all(count == 1 for count in state.values())
+```
+
+</CodeWithTooltips>
+
+</Scrollycoding>
+
+## Issues and consideration
+- **Return Value:** Decide what the function should return if the target value is not found. Common practices include returning the index of the first element greater than the target or returning a sentinel value (like -1)
+- **Custom Comparators:** If using custom data types, ensure that the comparator correctly defines the ordering. This is crucial for the accuracy of the binary search.
+
+
+## Related Problem
+1. [69. Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
+2. [278. First Bad Version](https://leetcode.com/problems/first-bad-version/description/)
+2. [153. Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
+2. [852. Peak Index in a Mountain Array](https://leetcode.com/problems/peak-index-in-a-mountain-array/description/)
+2. [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/description/)
+
+## Resources
+- [Binary Search Animated - Youtube](https://www.youtube.com/watch?v=eVuPCG5eIr4)
+
