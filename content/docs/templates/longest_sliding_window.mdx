@@ -22,7 +22,9 @@ import { CodeWithTooltips } from "@/components/codewithtooltips"
 <Scrollycoding>
 
 ## !!steps  Initializes variables
-1. Initializes `res` for the longest valid substring length, `left` as the sliding window's start, and `state` to track unique valid elements.
+1. `res` will hold the maximum length of the longest valid substring found during the iteration.
+2. `left` indicates the starting index of the current substring being evaluated.
+3. `state` creates a dictionary that counts occurrences (default is 0) of each character in the current substring.
 
 
 ### !sticker
@@ -30,7 +32,7 @@ import { CodeWithTooltips } from "@/components/codewithtooltips"
 <CodeWithTooltips>
 
 ```python !code
-def longest_valid(string):
+def longest_valid(s):
     res = 0
     left = 0
     # !tooltip[/defaultdict/] defaultdict
@@ -43,98 +45,102 @@ This initializes state as a defaultdict where each new character automatically s
 
 </CodeWithTooltips>
 
-## !!steps Loop Iterates
+## !!steps Update And Check Current State
 
-2. This loop iterates through the `string` and adds it to the `state` set, ensuring that only unique valid elements are tracked as the sliding window progresses.
+4. `state[s[i]] += 1`: This increases the count of the current character s[i] in the state dictionary.
+5. The while loop checks if the current character counts in `state` form a valid substring (as defined by the `valid` function). If not valid, it reduces the count of the character at the current left index, effectively "removing" it from the current substring.
 
 ### !sticker
 
 <CodeWithTooltips>
 
 ```python !code
-def longest_valid(string):
+def longest_valid(s):
     res = 0
     left = 0
     state = defaultdict(int)
-    for right in range(len(string)):
-        state[string[right]] += 1
+    for i in range(len(s)):
+        state[s[i]] += 1
+        while not valid(state, s[i]):
+            state[s[left]] -= 1
+            left += 1
 ```
 
 </CodeWithTooltips>
 
 
-## !!steps Sliding Window
+## !!steps Clean Up And Update Result
 
-3. This loop checks if the current `state` is `valid` and removes string from the `left` until it becomes valid, shrinking the window as needed.
+6. Remove the character from state if its count is zero.
+7. Update the result with the maximum length of valid substring found
+
 
 ### !sticker
 
 <CodeWithTooltips>
 
 ```python !code
-def longest_valid(string):
+def longest_valid(s):
     res = 0
     left = 0
     state = defaultdict(int)
-    for right in range(len(string)):
-        state[string[right]] += 1
-        while not valid(state):
-            state[strings[left]] -= 1
-            if state[string[left]] == 0:
-                del state[string[left]]
+    for i in range(len(s)):
+        state[s[i]] += 1
+        while not valid(state, s[i]):
+            state[s[left]] -= 1
+            if state[s[left]] == 0:
+                del state[s[left]]
             left += 1
-        res = max(res, right - left + 1)
-
-    # Update the result with the maximum length of valid substring found
+        
+        res = max(res, i - left + 1)
     return res
 ```
 
 </CodeWithTooltips>
 
-## !!steps Implement valid() Function
+## !!steps Implement valid() function
 
-4. Implenent valid function based on problem requirements.
+8. Implement `valid()` based on problem requirements
+9. You can also use `while state[s[i]] > 1` to replace `while not valid(state, s[i])` function in this simple case.
 
 ### !sticker
 
 <CodeWithTooltips>
 
 ```python !code
-def longest_valid(string):
+def longest_valid(s):
     res = 0
     left = 0
     state = defaultdict(int)
-    for right in range(len(string)):
-        state[string[right]] += 1
-        while not valid(state):
-            state[strings[left]] -= 1
+    for i in range(len(s)):
+        state[s[i]] += 1
+        while not valid(state, s[i]):
+            state[s[left]] -= 1
+            if state[s[left]] == 0:
+                del state[s[left]]
             left += 1
 
-        # Update the result with the maximum length of valid substring found
-        res = max(res, right - left + 1)
+        res = max(res, i - left + 1)
     return res
 
-def valid(state):
-    # A valid state is one where all elements have a count of 1 (unique)
-    return all(count == 1 for count in state.values())
+def valid(state, char):
+    return False if state[char] > 1 else True
 ```
 
 </CodeWithTooltips>
+
 
 </Scrollycoding>
 
 ## Issues and consideration
-- **Return Value:** Decide what the function should return if the target value is not found. Common practices include returning the index of the first element greater than the target or returning a sentinel value (like -1)
-- **Custom Comparators:** If using custom data types, ensure that the comparator correctly defines the ordering. This is crucial for the accuracy of the binary search.
+- **Input Validation:** The function does not validate the input type. If s is not a string, the code will raise errors. Adding a check to ensure s is a string would improve robustness.
 
 
 ## Related Problem
-1. [69. Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
-2. [278. First Bad Version](https://leetcode.com/problems/first-bad-version/description/)
-2. [153. Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
-2. [852. Peak Index in a Mountain Array](https://leetcode.com/problems/peak-index-in-a-mountain-array/description/)
-2. [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/description/)
+1. [283. Move Zeroes](https://leetcode.com/problems/move-zeroes/description/)
+2. [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
+3. [75. Sort Colors](https://leetcode.com/problems/sort-colors/description/)
+4. [16. 3Sum Closest](https://leetcode.com/problems/3sum-closest/description/)
 
 ## Resources
-- [Binary Search Animated - Youtube](https://www.youtube.com/watch?v=eVuPCG5eIr4)
 
