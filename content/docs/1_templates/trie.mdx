@@ -27,14 +27,10 @@ import { CodeWithTooltips } from "@/components/codewithtooltips"
 1. Initializes an empty dictionary to hold child nodes for each character.
 2. Sets a boolean flag to indicate if this node marks the end of a valid word.
 
-### !sticker
-
-<CodeWithTooltips>
-
 ```python !code
+# !mark(1:8) gold
 class TrieNode:
     def __init__(self):
-        # !tooltip[/26/] children
         self.children = {}
         self.is_end = False
 
@@ -43,17 +39,35 @@ class Trie:
         self.root = TrieNode()
 ```
 
-</CodeWithTooltips>
-
 ## !!steps Insert A New Word
 
 3. Starts at the root and iterates through each character in the word.
 4. If a character is not already a child, it creates a new `TrieNode` for that character.
 
 
-### !sticker
+```python !code
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
 
-<CodeWithTooltips>
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    # !mark(1:7) gold
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end = True
+```
+
+## !!steps Internal Search
+
+5. Implement an internal method checks if a given prefix exists in the Trie.
 
 ```python !code
 class TrieNode:
@@ -72,31 +86,8 @@ class Trie:
                 node.children[char] = TrieNode()
             node = node.children[char]
         node.is_end = True
-```
 
-</CodeWithTooltips>
-
-
-## !!steps Internal Search
-
-5. Implement an internal method checks if a given prefix exists in the Trie.
-
-### !sticker
-
-<CodeWithTooltips>
-
-```python !code
-class TrieNode:
-    def __init__(self):
-        ...
-
-class Trie:
-    def __init__(self):
-        ...
-
-    def insert(self, word):
-        ...
-
+    # !mark(1:8) gold
     def _search_prefix(self, prefix):
         node = self.root
         for char in prefix:
@@ -106,27 +97,28 @@ class Trie:
         return node
 ```
 
-</CodeWithTooltips>
 
 ## !!steps Search By Prefix Or Word
 
 6. Use `_search_prefix` function to check if given `prefix` or `word` exists in the Trie.
 
-### !sticker
-
-<CodeWithTooltips>
-
 ```python !code
 class TrieNode:
     def __init__(self):
-        ...
+        self.children = {}
+        self.is_end = False
 
 class Trie:
     def __init__(self):
-        ...
+        self.root = TrieNode()
 
     def insert(self, word):
-        ...
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end = True
 
     def _search_prefix(self, prefix):
         node = self.root
@@ -136,6 +128,7 @@ class Trie:
             node = node.children[char]
         return node
 
+    # !mark(1:6) gold
     def startsWith(self, prefix):
         return bool(self._search_prefix(prefix))
 
@@ -143,8 +136,6 @@ class Trie:
         node = self._search_prefix(word)
         return node and node.is_end
 ```
-
-</CodeWithTooltips>
 
 </Scrollycoding>
 

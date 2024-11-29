@@ -6,15 +6,12 @@ import {
 } from "codehike/utils/selection"
 import { Block, CodeBlock, parseProps } from "codehike/blocks"
 import { Pre, RawCode, highlight } from "codehike/code"
-
 import { tokenTransitions } from "@/components/annotations/token-transitions"
+import { mark } from "@/components/annotations/mark"
 import { wordWrap } from "./annotations/word-wrap"
 
 const Schema = Block.extend({
-  steps: z.array(
-    Block.extend({
-        sticker: Block
-  })),
+  steps: z.array(Block.extend({ code: CodeBlock })),
 })
 
 export function Scrollycoding(props: unknown) {
@@ -37,10 +34,10 @@ export function Scrollycoding(props: unknown) {
       <div className="w-1/2 bg-card">
         <div className="top-16 sticky overflow-auto">
           <Selection
-              from={steps.map((step) => (
-                step.sticker.children
-              ))}
-            />
+            from={steps.map((step) => (
+              <Code codeblock={step.code} />
+            ))}
+          />
         </div>
       </div>
     </SelectionProvider>
@@ -48,3 +45,13 @@ export function Scrollycoding(props: unknown) {
 }
 
 
+async function Code({ codeblock }: { codeblock: RawCode }) {
+  const highlighted = await highlight(codeblock, "github-light")
+  return (
+    <Pre
+      code={highlighted}
+      handlers={[mark, tokenTransitions]}
+      className="..."
+    />
+  )
+}

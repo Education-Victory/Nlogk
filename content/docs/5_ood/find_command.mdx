@@ -1,0 +1,145 @@
+---
+title: Linux Find Command
+description: Find 101
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+
+## Basic
+
+Q: Design Unix File Search API to search file with different arguments as "extension", "size". The design should be maintainable to add new constraints and also should support AND, OR conditionals.
+
+A: We can use the **Specification Pattern** combined with the **Builder Pattern**. This design will ensure that the API is maintainable and extensible for future requirements.
+
+
+
+## Code Template
+
+
+<Scrollycoding>
+
+## !!steps Abstract Class And Subclasses
+
+1. This abstract class `FileSpecification` defines the interface for all specifications. It contains a method `is_satisfied_by` that checks if a given file meets the specification.
+2. Subclasses inherit from FileSpecification and implements the `is_satisfied_by` method.
+
+
+```python !code
+class FileSpecification:
+    def is_satisfied_by(self, file: File) -> bool:
+        # Abstract method to be implemented by subclasses
+        pass
+
+class ExtensionSpecification(FileSpecification):
+    def __init__(self, extension: str):
+        self.extension = extension
+
+    def is_satisfied_by(self, file: File) -> bool:
+        # Check if the file's extension matches the specified extension
+        return file.extension == self.extension
+
+class SizeSpecification(FileSpecification):
+    def __init__(self, size: int, comparator: str):
+        self.size = size
+        self.comparator = comparator
+
+    def is_satisfied_by(self, file: File) -> bool:
+        # Create a dictionary mapping operators to boolean expressions
+        if self.comparator not in ops:
+            raise ValueError(f"Invalid comparator: {self.comparator}")
+        ops = {
+            '>': file.size > self.size,
+            '<': file.size < self.size,
+            '=': file.size == self.size}
+        return ops.get(self.comparator, False)
+```
+
+## !!steps Two Specifications
+
+3. `AndSpecification` class allows the combination of multiple specifications using a logical AND operation.
+It checks if a file satisfies all the provided specifications.
+4. `OrSpecification` class allows the combination of multiple specifications using a logical OR operation.
+It checks if a file satisfies at least one of the provided specifications.
+
+```python !code
+class AndSpecification(FileSpecification):
+    def __init__(self, *specifications: FileSpecification):
+        self.specifications = specifications
+
+    def is_satisfied_by(self, file: File) -> bool:
+        # Check if the file satisfies all specifications
+        return all(spec.is_satisfied_by(file) for spec in self.specifications)
+
+class OrSpecification(FileSpecification):
+    def __init__(self, *specifications: FileSpecification):
+        self.specifications = specifications
+
+    def is_satisfied_by(self, file: File) -> bool:
+        # Check if the file satisfies any of the specifications
+        return any(spec.is_satisfied_by(file) for spec in self.specifications)
+```
+
+
+## !!steps File Search
+
+5. `FileSearcher` class responsible for searching files based on a given specification. It takes a list of files and uses the specification to filter them.
+6. `FileSearchBuilder` class provides a fluent interface for constructing complex file search specifications.
+It allows users to add specifications incrementally and build either an AND or OR combination.
+
+```python !code
+class FileSearcher:
+    def __init__(self, files: List[File]):
+        self.files = files
+
+    def find(self, specification: FileSpecification) -> List[File]:
+        # Filter files based on the provided specification
+        return [file for file in self.files if specification.is_satisfied_by(file)]
+
+class FileSearchBuilder:
+    def __init__(self):
+        self.specifications = []
+
+    def with_extension(self, extension: str):
+        self.specifications.append(ExtensionSpecification(extension))
+        return self
+
+    def with_size(self, size: int, comparator: str):
+        self.specifications.append(SizeSpecification(size, comparator))
+        return self
+
+    def build_and(self):
+        return AndSpecification(*self.specifications)
+
+    def build_or(self):
+        return OrSpecification(*self.specifications)
+```
+
+## !!steps Example Usage
+
+7. The use of the `FileSearchBuilder` allows for easy modification and chaining of search criteria, making the code modular and reusable.
+
+```python !code
+files = [...]  # List of File objects
+
+searcher = FileSearcher(files)
+
+# Build a search for files with .txt extension AND size > 1000
+builder = FileSearchBuilder()
+specification = builder.with_extension('.txt').with_size(1000, '>').build_and()
+result = searcher.find(specification)
+
+# Build a search for files with .txt OR .md extension
+builder = FileSearchBuilder()
+specification = builder.with_extension('.txt').with_extension('.md').build_or()
+result = searcher.find(specification)
+```
+
+
+</Scrollycoding>
+
+## Issues and consideration
+1. Performance Concerns: The find method iterates through all files for each search, which could be inefficient for large datasets. If performance becomes an issue, consider implementing indexing or caching strategies to speed up searches. You could also explore parallel processing for large file sets.
+2. Chaining Method Limitations: The `FileSearchBuilder` allows chaining of methods, but if `build_and()` or `build_or()` is called, the builder cannot be reused without reinitialization. This could lead to confusion.
+
+

@@ -3,7 +3,7 @@ import { Pre, highlight } from "codehike/code"
 import { z } from "zod"
 import { tooltip } from "@/components/annotations/tooltip"
 import { tokenTransitions } from "@/components/annotations/token-transitions"
-
+import { mark } from "@/components/annotations/mark"
 
 
 const Schema = Block.extend({
@@ -23,6 +23,6 @@ export async function CodeWithTooltips(props: unknown) {
 
     }
   })
-  return <Pre code={highlighted} handlers={[tokenTransitions, tooltip]} />
+  return <Pre code={highlighted} handlers={[mark, tokenTransitions, tooltip]} />
 }
 

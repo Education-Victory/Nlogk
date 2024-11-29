@@ -27,58 +27,37 @@ import { CodeWithTooltips } from "@/components/codewithtooltips"
 3. `state` creates a dictionary that counts occurrences (default is 0) of each character in the current substring.
 
 
-### !sticker
-
-<CodeWithTooltips>
-
 ```python !code
+# !mark(1:4) gold
 def longest_valid(s):
     res = 0
     left = 0
-    # !tooltip[/defaultdict/] defaultdict
     state = defaultdict(int)
 ```
-
-## !!tooltips defaultdict
-
-This initializes state as a defaultdict where each new character automatically starts with a count of 0.
-
-</CodeWithTooltips>
 
 ## !!steps Update And Check Current State
 
 4. `state[s[i]] += 1`: This increases the count of the current character s[i] in the state dictionary.
 5. The while loop checks if the current character counts in `state` form a valid substring (as defined by the `valid` function). If not valid, it reduces the count of the character at the current left index, effectively "removing" it from the current substring.
 
-### !sticker
-
-<CodeWithTooltips>
-
 ```python !code
 def longest_valid(s):
     res = 0
     left = 0
     state = defaultdict(int)
+    # !mark(1:5) gold
     for i in range(len(s)):
         state[s[i]] += 1
         while not valid(state, s[i]):
             state[s[left]] -= 1
             left += 1
 ```
-
-</CodeWithTooltips>
-
 
 ## !!steps Clean Up And Update Result
 
 6. Remove the character from state if its count is zero.
 7. Update the result with the maximum length of valid substring found
 
-
-### !sticker
-
-<CodeWithTooltips>
-
 ```python !code
 def longest_valid(s):
     res = 0
@@ -88,25 +67,21 @@ def longest_valid(s):
         state[s[i]] += 1
         while not valid(state, s[i]):
             state[s[left]] -= 1
+            # !mark(1:2) gold
             if state[s[left]] == 0:
                 del state[s[left]]
             left += 1
         
+        # !mark(1:2) blue
         res = max(res, i - left + 1)
     return res
 ```
-
-</CodeWithTooltips>
 
 ## !!steps Implement valid() function
 
 8. Implement `valid()` based on problem requirements
 9. You can also use `while state[s[i]] > 1` to replace `while not valid(state, s[i])` function in this simple case.
 
-### !sticker
-
-<CodeWithTooltips>
-
 ```python !code
 def longest_valid(s):
     res = 0
@@ -123,12 +98,10 @@ def longest_valid(s):
         res = max(res, i - left + 1)
     return res
 
+# !mark(1:2) gold
 def valid(state, char):
     return False if state[char] > 1 else True
 ```
-
-</CodeWithTooltips>
-
 
 </Scrollycoding>
 
