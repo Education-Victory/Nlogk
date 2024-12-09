@@ -1,6 +1,6 @@
 ---
-title: Sliding Window - Longest Valid
-description: Sliding Window - Longest Valid 101
+title: Longest Sliding Window
+description: Longest Sliding Window
 full: true
 ---
 
@@ -72,7 +72,7 @@ def longest_valid(s):
                 del state[s[left]]
             left += 1
         
-        # !mark(1:2) blue
+        # !mark(1:2) gold
         res = max(res, i - left + 1)
     return res
 ```

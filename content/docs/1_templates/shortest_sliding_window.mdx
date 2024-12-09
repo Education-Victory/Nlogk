@@ -1,0 +1,117 @@
+---
+title: Shortest Sliding Window
+description: Shortest Sliding Window
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+import { CodeWithTooltips } from "@/components/codewithtooltips"
+
+## Use Cases
+
+| Use Case   | Description   | Example  |
+|-----------|----------------|--------|
+| Finding the Shortest Substring Containing All Characters | Given a string and a set of characters, find the length of the shortest substring that contains all the characters from the set.                                     | For the string "ADOBECODEBANC" and the set {'A', 'B', 'C'}, the shortest substring is "BANC", with a length of 4.         |
+| Finding the Shortest Subarray with a Given Sum | Given an array of integers, find the length of the shortest contiguous subarray that sums to a specified value.                                                       | In the array [1, 2, 3, 4, 5] with a target sum of 11, the shortest subarray is [4, 5], with a length of 2.                |
+| Finding the Shortest Window to Include All Elements | Given an array of integers, find the length of the shortest contiguous subarray that contains all distinct elements from the array.                                   | For the array [1, 2, 1, 2, 3], the shortest window that contains all distinct elements {1, 2, 3} is [1, 2, 3], with a length of 3. |
+
+
+## Code Template
+
+
+<Scrollycoding>
+
+## !!steps  Initializes variables
+1. `res`: Initialize result as infinity
+2. `left` indicates the starting index of the current substring being evaluated.
+3. `state`  is used to keep track of the counts of characters (or elements) within the current window defined by the indices between `left` and `right`
+
+
+```python !code
+# !mark(1:4) gold
+def shortest_valid(s):
+    res = float('inf')
+    left = 0
+    state = defaultdict(int) 
+```
+
+## !!steps Shrink Current Window
+
+4. Iterate through the string, adding the character at index `i` to the `state` dictionary to expand the sliding window.
+5. In the while loop, Update the minimum `res` size if `valid`
+
+```python !code
+def shortest_valid(s):
+    res = float('inf')
+    left = 0
+    state = defaultdict(int)
+    
+    # !mark(1:6) gold
+    for i in range(len(s)):
+        state[s[i]] += 1
+        while valid(state):
+            res = min(res, i - left + 1)
+            state[s[left]] -= 1
+            left += 1
+```
+
+## !!steps Clean Up And Update Result
+
+6. Remove the character from state if its count is zero.
+7. Return -1 if no valid window was found.
+
+```python !code
+def shortest_valid(s):
+    res = float('inf')
+    left = 0
+    state = defaultdict(int)
+    
+    for i in range(len(s)):
+        state[s[i]] += 1
+        while valid(state):
+            res = min(res, i - left + 1)
+            state[s[left]] -= 1
+            # !mark(1:2) gold
+            if state[s[left]] == 0:
+                del state[s[left]]
+            left += 1
+    # !mark(1:1) gold
+    return -1 if res == float('inf') else res
+```
+
+## !!steps Implement valid() function
+
+8. The `valid()` function will return True when `state` contains at least 10 distinct characters.
+
+```python !code
+def shortest_valid(s):
+    res = float('inf')
+    left = 0
+    state = defaultdict(int)
+    
+    for i in range(len(s)):
+        state[s[i]] += 1
+        while valid(state):
+            res = min(res, i - left + 1)
+            state[s[left]] -= 1
+            if state[s[left]] == 0:
+                del state[s[left]]
+            left += 1
+    return -1 if res == float('inf') else res
+
+# !mark(1:2) gold
+def valid(state):
+    return True if len(state) >= 10 else False
+```
+
+</Scrollycoding>
+
+## Issues and consideration
+
+
+## Related Problem
+1. [209. Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/description/)
+2. [76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/description/)
+
+## Resources
+
