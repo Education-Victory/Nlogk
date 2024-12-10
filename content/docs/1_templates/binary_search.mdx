@@ -23,7 +23,7 @@ import { Scrollycoding } from "@/components/scrollycoding"
 ## !!steps Initializing search range
 
 1. The element we are looking for is in the range `[left, right)`. (right is not included.)
-2. Use `<` instead of `<=` to prevent infinite loop
+2. Use `<` instead of `<=` to prevent infinite loop when the template range closed on the left, open on the right.
 
 
 ```python !code
@@ -36,15 +36,17 @@ def lower_bound(nums, target):
 
 ## !!steps Update search Range
 
-3. Calculates the midpoint index of a search interval to avoid overflow and ensure accurate indexing.
-4. Update the left or right boundary based on the valid() function. (This code template will return the index of first `valid()` element)
+3. Calculates the `mid` index of a search interval to avoid overflow and ensure accurate indexing.
+4. Update the left or right boundary based on the output of `valid()`.
+5. `left`: the index of first `valid()` element.
+
 
 
 ```python !code
 def lower_bound(nums, target):
     left, right = 0, len(nums)
     while left < right:
-        # !mark(1:6) gold
+        # !mark(1:9) gold
     	mid = left + (right - left) // 2
         if valid(nums[mid], target):
             right = mid
@@ -56,7 +58,7 @@ def lower_bound(nums, target):
 
 ## !!steps Implenent Valid Function
 
-5. Implenent valid function based on problem requirements.
+6. Implenent valid function based on problem requirements.
 
 
 ```python !code
@@ -79,16 +81,68 @@ def valid(num, target):
 </Scrollycoding>
 
 ## Issues and consideration
-- **Return Value:** Decide what the function should return if the target value is not found. Common practices include returning the index of the first element greater than the target or returning a sentinel value (like -1)
 - **Custom Comparators:** If using custom data types, ensure that the comparator correctly defines the ordering. This is crucial for the accuracy of the binary search.
 
-
 ## Related Problem
-1. [69. Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
-2. [278. First Bad Version](https://leetcode.com/problems/first-bad-version/description/)
-2. [153. Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
-2. [852. Peak Index in a Mountain Array](https://leetcode.com/problems/peak-index-in-a-mountain-array/description/)
-2. [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/description/)
+[69. Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
+
+```python
+class Solution:
+    def mySqrt(self, x):
+        left = 1
+        right = x + 1
+        while left < right:
+            mid = left + (right - left) // 2
+            if self.valid(mid, x):
+                right = mid
+            else:
+                left = mid + 1
+        # left - 1 is the index of first non valid() element
+        return left - 1
+
+    def valid(self, mid, x):
+        return mid * mid > x
+```
+
+[278. First Bad Version](https://leetcode.com/problems/first-bad-version/description/)
+
+```python
+class Solution:
+    def firstBadVersion(self, n):
+        left = 0
+        right = n + 1
+        while left < right:
+            mid = left + (right - left) // 2
+            if self.valid(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+
+    def valid(self, mid):
+        return isBadVersion(mid)
+```
+
+[875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/description/)
+
+```python
+class Solution:
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        left, right = 1, max(piles)
+        while left < right:
+            mid = left + (right - left) // 2
+            if self.valid(mid, piles, h):
+                right = mid
+            else:
+                left = mid + 1
+        return left
+
+    def valid(self, k, piles, h):
+        hours_needed = 0
+        for pile in piles:
+            hours_needed += (pile + k - 1) // k
+        return hours_needed <= h
+```
 
 ## Resources
 - [Binary Search Animated - Youtube](https://www.youtube.com/watch?v=eVuPCG5eIr4)

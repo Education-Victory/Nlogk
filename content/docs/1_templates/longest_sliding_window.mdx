@@ -110,10 +110,30 @@ def valid(state, char):
 
 
 ## Related Problem
-1. [283. Move Zeroes](https://leetcode.com/problems/move-zeroes/description/)
-2. [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
-3. [75. Sort Colors](https://leetcode.com/problems/sort-colors/description/)
-4. [16. 3Sum Closest](https://leetcode.com/problems/3sum-closest/description/)
+[3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
+
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        res = 0
+        left = 0
+        state = defaultdict(int)
+        
+        for i in range(len(s)):
+            state[s[i]] += 1
+            # While the current character is repeating in the window
+            while not self.valid(state, s[i]):
+                state[s[left]] -= 1
+                if state[s[left]] == 0:
+                    del state[s[left]]
+                left += 1
+            res = max(res, i - left + 1)
+        return res
+
+    def valid(self, state, char):
+        # Check if the current character has more than 1 occurrence
+        return False if state[char] > 1 else True
+```
 
 ## Resources
 
