@@ -110,8 +110,27 @@ def valid(state):
 
 
 ## Related Problem
-1. [209. Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/description/)
-2. [76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/description/)
+[209. Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/description/)
+
+```python
+class Solution:
+    def minSubArrayLen(self, target, nums):
+        res = float('inf')
+        left = 0
+        current_sum = 0
+        
+        for i in range(len(nums)):
+            current_sum += nums[i]
+            # While the current sum is valid (i.e., greater than or equal to target)
+            while self.valid(current_sum, target):
+                res = min(res, i - left + 1)
+                current_sum -= nums[left]
+                left += 1                 
+        return 0 if res == float('inf') else res  # Return 0 if no valid subarray found
+
+    def valid(self, current_sum, target):
+        return current_sum >= target  # Check 
+```
 
 ## Resources
 

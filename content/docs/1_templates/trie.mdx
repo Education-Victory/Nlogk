@@ -145,9 +145,112 @@ class Trie:
 
 
 ## Related Problem
-1. [208. Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree/description/)
-2. [139. Word Break](https://leetcode.com/problems/word-break/description/)
-3. [720. Longest Word in Dictionary](https://leetcode.com/problems/longest-word-in-dictionary/description/)
+[208. Implement Trie (Prefix Tree)](https://leetcode.com/problems/implement-trie-prefix-tree/description/)
+
+```python
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+        
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end = True
+
+    def _search_prefix(self, prefix):
+        node = self.root
+        for char in prefix:
+            if char not in node.children:
+                return False
+            node = node.children[char]
+        return node
+
+    def startsWith(self, prefix):
+        return bool(self._search_prefix(prefix))
+
+    def search(self, word):
+        node = self._search_prefix(word)
+        return node and node.is_end
+```
+
+[212. Word Search II](https://leetcode.com/problems/word-search-ii/description/)
+```python
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end = True
+
+    def _search_prefix(self, prefix):
+        node = self.root
+        for char in prefix:
+            if char not in node.children:
+                return False
+            node = node.children[char]
+        return node
+
+    def startsWith(self, prefix):
+        return bool(self._search_prefix(prefix))
+
+    def search(self, word):
+        node = self._search_prefix(word)
+        return node and node.is_end
+
+class Solution:
+    def findWords(self, board, words):
+        # Initialize the Trie and insert all words
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+
+        m, n = len(board), len(board[0])
+        result = set()
+        visited = [[False] * n for _ in range(m)]
+
+        def backtrack(x, y, node, path):
+            if node.is_end:  # If we reached the end of a word
+                result.add(path)  # Add the word to the result
+                node.is_end = False  # Avoid adding the same word again
+
+            # Explore the adjacent cells
+            for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:  # Up, Down, Left, Right
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < m and 0 <= ny < n and not visited[nx][ny]:
+                    char = board[nx][ny]
+                    if char in node.children:  # If the character is in the Trie
+                        visited[nx][ny] = True  # Mark the cell as visited
+                        backtrack(nx, ny, node.children[char], path + char)  # Recur for the next cell
+                        visited[nx][ny] = False  # Backtrack: unmark the cell
+
+        for i in range(m):
+            for j in range(n):
+                char = board[i][j]
+                if char in trie.root.children:  # Start backtracking if the character is in the Trie
+                    visited[i][j] = True  # Mark the cell as visited
+                    backtrack(i, j, trie.root.children[char], char)  # Start backtracking
+                    visited[i][j] = False  # Backtrack: unmark the cell
+
+        return list(result)  # Convert the result set to a list
+```
 
 ## Resources
 - [Trie Data Structure (EXPLAINED)](https://www.youtube.com/watch?v=-urNrIAQnNo)
