@@ -1,0 +1,100 @@
+---
+title: Monotonic Stack
+description: Monotonic Stack
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+
+## Use Cases
+
+| Use Case    | Description   | Example          |
+|-------------|--------|--------|
+| Next Greater Element                               | Given an array of integers, find the next greater element for each element in the array. If there is no greater element, return -1. | For the array `[2, 1, 2, 4, 3]`, the next greater elements are `[4, 2, 4, -1, -1]`.                     |
+| Next Smaller Element                               | Given an array of integers, find the next smaller element for each element in the array. If there is no smaller element, return -1. | For the array `[4, 5, 2, 10, 8]`, the next smaller elements are `[2, 2, -1, 8, -1]`.                    |
+
+
+## Code Template
+
+
+<Scrollycoding>
+
+## !!steps  Initializes variables
+1. `result = [-1] * n`: Creates a list of the same length as nums, initialized to -1. This will hold the next greater elements.
+2. `stack = []`: Initializes an empty list to track indices of elements in nums during iteration.
+
+
+```python !code
+# !mark(1:4) gold
+def next_greater_elements(nums):
+    n = len(nums)
+    result = [-1] * n
+    stack = []
+```
+
+## !!steps Check for next greater element
+
+3. Checks if the `stack` is not empty and if the current element `nums[i]` is greater than the element at the index on the top of the stack.
+4. If both conditions are true, it means `nums[i]` is the next greater element for the index at the top of the `stack`, and we pop indices from the `stack` until this condition is false.
+
+```python !code
+def next_greater_elements(nums):
+    n = len(nums)
+    result = [-1] * n
+    stack = []
+
+    # !mark(1:2) gold
+    for i in range(n):
+        while stack and nums[stack[-1]] < nums[i]:
+```
+
+## !!steps Append current index to stack
+5. Retrieves the `index` from the `stack` and updates the result list with the current element `nums[i]` as its next greater element.
+6. Adds the current index `i` to the `stack` for future comparisons.
+
+
+
+```python !code
+def next_greater_elements(nums):
+    n = len(nums)
+    result = [-1] * n
+    stack = []
+
+    for i in range(n):
+        while stack and nums[stack[-1]] < nums[i]:
+            # !mark(1:4) gold
+            index = stack.pop()
+            result[index] = nums[i]
+        stack.append(i)
+    return result
+```
+
+
+
+</Scrollycoding>
+
+## Issues and consideration
+
+
+## Related Problem
+[739. Daily Temperatures](https://leetcode.com/problems/daily-temperatures/description/)
+
+```python
+class Solution:
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        n = len(temperatures)
+        result = [0] * n
+        stack = []
+
+        for i in range(n):
+            while stack and temperatures[stack[-1]] < temperatures[i]:
+                index = stack.pop()
+                result[index] = i - index
+            stack.append(i)
+
+        return result 
+```
+
+## Resources
+
+

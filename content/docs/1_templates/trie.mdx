@@ -22,7 +22,7 @@ import { CodeWithTooltips } from "@/components/codewithtooltips"
 
 <Scrollycoding>
 
-## !!steps Class Initializing
+## !!steps Class initializing
 
 1. Initializes an empty dictionary to hold child nodes for each character.
 2. Sets a boolean flag to indicate if this node marks the end of a valid word.
@@ -39,7 +39,7 @@ class Trie:
         self.root = TrieNode()
 ```
 
-## !!steps Insert A New Word
+## !!steps Insert a new word
 
 3. Starts at the root and iterates through each character in the word.
 4. If a character is not already a child, it creates a new `TrieNode` for that character.
@@ -65,7 +65,7 @@ class Trie:
         node.is_end = True
 ```
 
-## !!steps Internal Search
+## !!steps Internal search
 
 5. Implement an internal method checks if a given prefix exists in the Trie.
 
@@ -98,7 +98,7 @@ class Trie:
 ```
 
 
-## !!steps Search By Prefix Or Word
+## !!steps Search by prefix or word
 
 6. Use `_search_prefix` function to check if given `prefix` or `word` exists in the Trie.
 
@@ -254,5 +254,3 @@ class Solution:
 
 ## Resources
 - [Trie Data Structure (EXPLAINED)](https://www.youtube.com/watch?v=-urNrIAQnNo)
-
-

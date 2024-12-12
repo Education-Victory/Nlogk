@@ -5,7 +5,6 @@ full: true
 ---
 
 import { Scrollycoding } from "@/components/scrollycoding"
-import { CodeWithTooltips } from "@/components/codewithtooltips"
 
 ## Use Cases
 
@@ -35,7 +34,7 @@ def longest_valid(s):
     state = defaultdict(int)
 ```
 
-## !!steps Update And Check Current State
+## !!steps Update and check current state
 
 4. `state[s[i]] += 1`: This increases the count of the current character s[i] in the state dictionary.
 5. The while loop checks if the current character counts in `state` form a valid substring (as defined by the `valid` function). If not valid, it reduces the count of the character at the current left index, effectively "removing" it from the current substring.
@@ -53,7 +52,7 @@ def longest_valid(s):
             left += 1
 ```
 
-## !!steps Clean Up And Update Result
+## !!steps Clean up and update result
 
 6. Remove the character from state if its count is zero.
 7. Update the result with the maximum length of valid substring found

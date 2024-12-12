@@ -5,7 +5,6 @@ full: true
 ---
 
 import { Scrollycoding } from "@/components/scrollycoding"
-import { CodeWithTooltips } from "@/components/codewithtooltips"
 
 ## Use Cases
 
@@ -35,7 +34,7 @@ def shortest_valid(s):
     state = defaultdict(int) 
 ```
 
-## !!steps Shrink Current Window
+## !!steps Shrink current window
 
 4. Iterate through the string, adding the character at index `i` to the `state` dictionary to expand the sliding window.
 5. In the while loop, Update the minimum `res` size if `valid`
@@ -55,7 +54,7 @@ def shortest_valid(s):
             left += 1
 ```
 
-## !!steps Clean Up And Update Result
+## !!steps Clean up and ypdate result
 
 6. Remove the character from state if its count is zero.
 7. Return -1 if no valid window was found.
@@ -129,7 +128,7 @@ class Solution:
         return 0 if res == float('inf') else res  # Return 0 if no valid subarray found
 
     def valid(self, current_sum, target):
-        return current_sum >= target  # Check 
+        return current_sum >= target
 ```
 
 ## Resources
