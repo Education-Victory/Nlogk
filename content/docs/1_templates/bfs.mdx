@@ -1,0 +1,162 @@
+---
+title: Breadth-First Search
+description: Breadth-First Search
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+
+## Use Cases
+
+| Use Case   | Description     | Example      |
+|------------|---------|-----------|
+| Level Order Traversal of a Binary Tree       | Given a binary tree, return the values of its nodes in level order (breadth-first).            | For the tree: 1, with children 2 and 3, and 2's children 4 and 5, and 3's children 6 and 7. The result is [[1], [2, 3], [4, 5, 6, 7]]. |
+| Finding Maximum Value at Each Level           | Find the maximum value of nodes at each level of the binary tree.                              | For the tree: 1, with children 2 and 3. The result is [1, 3].                             |
+| Checking for Completeness of a Binary Tree    | Verify if the binary tree is complete by checking if all levels are fully filled except possibly the last. | For the tree: 1, with children 2 and 3. The result is True (complete).                    |
+
+
+
+
+## Code Template
+
+
+<Scrollycoding>
+
+## !!steps Initializing
+
+1. `queue = deque([root])`: Initializes a double-ended queue (deque) with the root node of the tree. The deque is used for efficient FIFO (first-in, first-out) operations, allowing us to easily add nodes to the end and remove nodes from the front as we traverse the tree.
+
+
+```python !code
+# !mark(1:3) gold
+def bfs(root):
+    queue = deque([root])
+    result = []
+```
+
+
+## !!steps While loop
+
+2. `while queue:` This line starts a loop that continues as long as there are nodes in the queue. It ensures that we process each level of the tree until all nodes have been visited.
+3. `level_size = len(queue):` This line calculates the number of nodes at the current level by getting the length of the queue. This value, level_size, will be used to determine how many nodes to process in this iteration of the loop.
+4. `level = []:` This line initializes an empty list named level. It will temporarily store the values of the nodes that are processed at the current level before adding them to the main result list.
+
+```python !code
+def bfs(root):
+    queue = deque([root])
+    result = []
+    # !mark(1:3) gold
+    while queue:
+        level_size = len(queue)
+        level = []
+```
+
+## !!steps Loop over queue
+
+5. `for _ in range(level_size):` Starts a loop that will iterate level_size times, where level_size is the number of nodes at the current level. The underscore _ is used as a variable name to indicate that the loop variable is not needed within the loop body.
+6. `node = queue.popleft():` Removes and retrieves the leftmost (or front) node from the queue. The popleft() method is specific to deques and is efficient for removing elements from the front. The variable node now holds the current node being processed.
+7. `level.append(node.val):` Adds the value of the current node (accessed via node.val) to the level list. This collects the values of all nodes at the current level in the level list for later use.
+
+
+```python !code
+def bfs(root):
+    queue = deque([root])
+    result = []
+    while queue:
+        level_size = len(queue)
+        level = []
+        # !mark(1:3) gold
+        for _ in range(level_size):
+            node = queue.popleft()
+            level.append(node.val)
+```
+
+## !!steps Update queue
+
+8. `if node.left:` Checks if the current node (stored in the variable node) has a left child. If the left child exists (i.e., it is not None), the following line will execute.
+9. `queue.append(node.left):` If the left child exists, this line adds the left child node to the end of the queue. This ensures that the left child will be processed in subsequent iterations of the BFS loop.
+10. `result.append(level):` Adds the list level, which contains the values of all nodes at the current level of the tree or graph, to the result list. The result list is designed to store the values of nodes level by level, effectively capturing the structure of the traversal.
+
+
+```python !code
+def bfs(root):
+    queue = deque([root])
+    result = []
+    while queue:
+        level_size = len(queue)
+        level = []
+        for _ in range(level_size):
+            node = queue.popleft()
+            level.append(node.val)
+            # !mark(1:6) gold
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        result.append(level)
+    return result
+```
+
+</Scrollycoding>
+
+## Issues and consideration
+- `BFS VS DFS:` BFS is ideal for scenarios where you need the shortest path or to explore nodes level by level. DFS is better suited for problems that require exploring all possible options or paths, especially when the solution is deep in the tree or graph.
+
+## Related Problem
+[102. Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/description/)
+
+```python
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        queue = deque([root])  # Initialize the queue with the root node
+        result = []  # This will store the level order traversal
+
+        while queue:
+            level_size = len(queue)  # Number of nodes at the current level
+            level = []  # List to store values of nodes at the current level
+            for _ in range(level_size):
+                node = queue.popleft()  # Dequeue the front node
+                level.append(node.val)  # Add the node's value to the current level
+                # Enqueue left and right children if they exist
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            result.append(level)  # Add the current level to the result
+
+        return result
+```
+
+[103. Binary Tree Zigzag Level Order Traversal](https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/description/)
+
+```python
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        queue = deque([root])  # Initialize the queue with the root node
+        result = []  # This will store the zigzag level order traversal
+        left_to_right = True  # Flag to determine the order of traversal
+
+        while queue:
+            level_size = len(queue)  # Number of nodes at the current level
+            level = []  # List to store values of nodes at the current level
+            for _ in range(level_size):
+                node = queue.popleft()  # Dequeue the front node
+                # Append the node's value based on the current order
+                if left_to_right:
+                    level.append(node.val)  # Left to right
+                else:
+                    level.insert(0, node.val)  # Right to left (insert at the beginning)
+                # Enqueue left and right children if they exist
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            result.append(level)  # Add the current level to the result
+            left_to_right = not left_to_right  # Toggle the order for the next level
+
+        return result
+```
