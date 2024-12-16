@@ -1,0 +1,111 @@
+---
+title: Depth-First Search
+description: Depth-First Search
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+
+## Use Cases
+
+| Use Case     | Description    | Example     |
+|-------------|--------|-------------------|
+| Preorder Traversal of a Binary Tree          | Given a binary tree, return the values of its nodes in preorder (root, left, right) traversal. | For the tree: 1, with children 2 and 3, and 2's children 4 and 5. The result is [1, 2, 4, 5, 3]. |
+| Finding All Paths from Root to Leaves        | Find all paths from the root to each leaf node in the binary tree.                            | For the tree: 1 with children 2 and 3, and 2's children 4 and 5. The result is [[1, 2, 4], [1, 2, 5], [1, 3]]. |
+| Checking for Symmetry of a Binary Tree       | Check if the binary tree is symmetric around its center.                                       | For the tree: 1 with children 2 and 2 (both having children 3 and 3). The result is True (symmetric). |
+
+
+
+
+## Code Template
+
+
+<Scrollycoding>
+
+## !!steps Basic case
+
+1. `dfs()` takes two parameters: root (the current node) and result (a list to store node values).
+2. `if not root:` checks if the current node is None. If it is, the function returns immediately.
+
+```python !code
+# !mark(1:3) gold
+def dfs(root, result):
+    if not root:
+        return
+```
+
+## !!steps Collect node value
+
+3. It collects node values during the DFS traversal, helping to track the order of processed nodes.
+
+```python !code
+def dfs(root, result):
+    if not root:
+        return
+    # !mark(1:2) gold
+    result.append(root.val)
+```
+
+## !!steps Loop over queue
+
+4. Recursively calls `dfs()` on each child, allowing traversal of both subtrees.
+
+
+```python !code
+def dfs(root, result):
+    if not root:
+        return
+    result.append(root.val)
+
+    # !mark(1:2) gold
+    for child in (root.left, root.right):
+        dfs(child, result)
+```
+
+</Scrollycoding>
+
+## Issues and consideration
+- `BFS VS DFS:` BFS is ideal for scenarios where you need the shortest path or to explore nodes level by level. DFS is better suited for problems that require exploring all possible options or paths, especially when the solution is deep in the tree or graph.
+
+## Related Problem
+[144. Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/description/)
+
+```python
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        result = []
+        
+        def dfs(node):
+            if not node:
+                return
+            result.append(node.val)
+            for child in (node.left, node.right):
+                dfs(child)
+                
+        dfs(root)
+        return result
+```
+
+[112. Path Sum](https://leetcode.com/problems/path-sum/description/)
+
+```python
+class Solution:
+    def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
+        def dfs(node, currentSum):
+            if not node:
+                return False
+            currentSum += node.val  # Add current node's value
+            
+            # Check if it's a leaf node and sum matches
+            if not node.left and not node.right:
+                return currentSum == targetSum
+            
+            # Continue DFS on children
+            for child in (node.left, node.right):
+                if dfs(child, currentSum):
+                    return True
+            return False
+
+        return dfs(root, 0)
+```
+
