@@ -113,7 +113,7 @@ def valid(state, char):
 
 ```python
 class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
+    def lengthOfLongestSubstring(self, s):
         res = 0
         left = 0
         state = defaultdict(int)
@@ -132,6 +132,68 @@ class Solution:
     def valid(self, state, char):
         # Check if the current character has more than 1 occurrence
         return False if state[char] > 1 else True
+```
+
+[159. Longest Substring with At Most Two Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/description/)
+
+```python
+class Solution:
+    def lengthOfLongestSubstringTwoDistinct(self, s):
+        res = 0
+        left = 0
+        state = defaultdict(int)
+        
+        for i in range(len(s)):
+            state[s[i]] += 1
+            while len(state) > 2:
+                state[s[left]] -= 1
+                if state[s[left]] == 0:
+                    del state[s[left]]
+                left += 1
+                
+            res = max(res, i - left + 1)
+        return res
+```
+
+[340. Longest Substring with At Most K Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/description/)
+
+```python
+class Solution:
+    def lengthOfLongestSubstringKDistinct(self, s, k):
+        res = 0
+        left = 0
+        state = defaultdict(int)
+        
+        for i in range(len(s)):
+            state[s[i]] += 1
+            while len(state) > k:
+                state[s[left]] -= 1
+                if state[s[left]] == 0:
+                    del state[s[left]]
+                left += 1
+                
+            res = max(res, i - left + 1)
+        return res
+```
+
+[904. Fruit Into Baskets](https://leetcode.com/problems/fruit-into-baskets/description/)
+```python
+class Solution:
+    def totalFruit(self, fruits):
+        res = 0
+        left = 0
+        state = defaultdict(int)
+        
+        for i in range(len(fruits)):
+            state[fruits[i]] += 1
+            while len(state) > 2:
+                state[fruits[left]] -= 1
+                if state[fruits[left]] == 0:
+                    del state[fruits[left]]
+                left += 1
+                
+            res = max(res, i - left + 1)
+        return res
 ```
 
 ## Resources

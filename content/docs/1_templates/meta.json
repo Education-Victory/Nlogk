@@ -1,4 +1,4 @@
 {
   "title": "Code Templates",
-  "pages": ["binary_search", "monotonic_stack", "bfs", "dfs", "topological", "longest_sliding_window", "shortest_sliding_window", "trie"]
+  "pages": ["binary_search", "monotonic_stack", "bfs", "dfs", "topological", "longest_sliding_window", "shortest_sliding_window", "uf", "trie"]
 }
