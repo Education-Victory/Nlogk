@@ -1,0 +1,91 @@
+---
+title: String Manipulation
+description: String Manipulation 101
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+
+<Scrollycoding>
+
+## !!steps Case Transformation
+
+- `upper():` Converts all characters to uppercase.
+- `lower():` Converts all characters to lowercase.
+- `title():` Capitalizes the first letter of each word.
+- `swapcase():` Swaps the case of each letter (uppercase to lowercase and vice versa).
+
+
+```python !code
+text = "Hello, World!"
+# !mark(1:4) gold
+upper_text = text.upper()      # "HELLO, WORLD!"
+lower_text = text.lower()      # "hello, world!"
+title_text = text.title()      # "Hello, World!"
+swapped_case = text.swapcase() # "hELLO, wORLD!"
+```
+
+## !!steps String Search and Validation
+
+- `startswith():` Checks if the string begins with a specified substring.
+- `endswith():` Checks if the string ends with a specified substring.
+- `find():` Verifies if a substring exists within the string.
+- `count():` Retrieves the index of the first occurrence of a substring.
+
+```python !code
+text = "Hello, World!"
+# !mark(1:5) gold
+starts_with_hello = text.startswith("Hello")  # True
+ends_with_exclamation = text.endswith("!")    # True
+contains_world = "World" in text              # True
+find_position = text.find("World")            # 7
+count_l = text.count('l')                     # 3
+```
+
+## !!steps String Splitting and Joining
+
+- `split():` Divides a string into a list of substrings based on a specified delimiter. In this case, the delimiter is ", ".
+- `join():` Combines a list of strings into a single string, inserting a specified separator between each element.
+- `splitlines():` Separates a string into a list of lines, using newline characters as the delimiter.
+
+```python !code
+text = "Hello, World!"
+# !mark(1:3) gold
+words = text.split(", ")                    # ["Hello", "World!"]
+joined_text = " - ".join(words)             # "Hello - World!"
+split_lines = "Hello\nWorld".splitlines()   # ["Hello", "World"]
+```
+
+## !!steps String Cleaning and Formatting
+
+- `strip():` Removes leading and trailing whitespace from the string.
+- `lstrip():` Removes whitespace only from the beginning of the string.
+- `rstrip():` Removes whitespace only from the end of the string.
+- `center():` Centers the string within a specified width, filling the remaining space with a specified character.
+
+```python !code
+# !mark(1:5) gold
+text = "   Hello, World!   "
+stripped_text = text.strip()      # "Hello, World!"
+left_stripped = text.lstrip()     # "Hello, World!   "
+right_stripped = text.rstrip()    # "   Hello, World!"
+centered_text = text.center(20, '*')         # "***Hello, World!***"
+```
+
+
+
+## !!steps String Information
+
+- `isalpha():` checks if all characters in the string are alphabetic (i.e., letters only). 
+- `isdigit():` checks if all characters in the string are digits.. 
+
+```python !code
+# !mark(1:4) gold
+text = "Python"
+length = len(text)             # 6
+is_alpha = user_input.isalpha()      # True
+is_digit = user_input.isdigit()      # False
+```
+
+
+</Scrollycoding>
