@@ -80,6 +80,40 @@ def valid(num, target):
 
 </Scrollycoding>
 
+## Common mistakes
+
+1. Wrong Boundary Condition
+```python code
+# ❌ Wrong
+    while left <= right:  # In the code template can lead to infinite loop
+# ✅ Correct 
+    while left < right:
+```
+
+2. Wrong Initial Right Boundary
+```python code
+# ❌ Wrong: might miss last element
+    right = len(nums) - 1
+# ✅ Correct: for lower_bound
+    right = len(nums)
+```
+
+
+3. Wrong Update of Left/Right Pointers
+```python code
+# ❌ Wrong: missing +1 when updating left
+    if not valid(nums[mid], target):
+        left = mid  # This can lead to infinite loop
+# ❌ Wrong: adding +1 when updating right
+    if valid(nums[mid], target):
+        right = mid + 1  # This skips potential answer
+# ✅ Correct:
+    if valid(nums[mid], target):
+        right = mid
+    else:
+        left = mid + 1
+```
+
 ## Issues and consideration
 - **Custom Comparators:** If using custom data types, ensure that the comparator correctly defines the ordering. This is crucial for the accuracy of the binary search.
 
