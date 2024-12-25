@@ -64,6 +64,22 @@ def dfs(root, result):
 
 </Scrollycoding>
 
+## Common mistakes
+
+1. Wrong Base Case
+```python
+# Wrong: missing base case
+def dfs(root, result):
+    result.append(root.val)  # Will fail on None
+# Wrong: wrong return value
+def dfs(root, result):
+    if not root:
+        return result  # Should return None
+# Correct:
+if not root:
+    return
+```
+
 ## Issues and consideration
 - `BFS VS DFS:` BFS is ideal for scenarios where you need the shortest path or to explore nodes level by level. DFS is better suited for problems that require exploring all possible options or paths, especially when the solution is deep in the tree or graph.
 

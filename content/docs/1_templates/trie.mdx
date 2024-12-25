@@ -138,6 +138,68 @@ class Trie:
 
 </Scrollycoding>
 
+## Common mistakes
+
+1. Wrong Node Structure Implementation
+```python
+# Wrong: incorrect children initialization
+class TrieNode:
+    def __init__(self):
+        self.children = []  # Should be dictionary
+        self.is_end = False
+# Wrong: missing end marker
+class TrieNode:
+    def __init__(self):
+        self.children = {}  # Missing is_end flag
+# Correct:
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+```
+
+2. Wrong Insert Implementation
+```python
+# Wrong: not updating node reference
+def insert(self, word):
+    node = self.root
+    for char in word:
+        if char not in self.root.children:  # Using root instead of current node
+            self.root.children[char] = TrieNode()
+# Wrong: forgetting end marker
+def insert(self, word):
+    node = self.root
+    for char in word:
+        if char not in node.children:
+            node.children[char] = TrieNode()
+        node = node.children[char]
+    # Missing node.is_end = True
+# Correct:
+def insert(self, word):
+    node = self.root
+    for char in word:
+        if char not in node.children:
+            node.children[char] = TrieNode()
+        node = node.children[char]
+    node.is_end = True
+```
+
+3. Wrong Search Implementation
+```python
+# Wrong: incorrect return condition
+def search(self, word):
+    node = self._search_prefix(word)
+    return node  # Should check is_end
+# Wrong: not handling None return
+def search(self, word):
+    node = self._search_prefix(word)
+    return node.is_end  # Could raise AttributeError
+# Correct:
+def search(self, word):
+    node = self._search_prefix(word)
+    return node and node.is_end
+```
+
 ## Issues and consideration
 - **Concurrency:** The current implementation is not **thread-safe**, which can lead to issues if multiple threads modify the Trie simultaneously. Implement **locking mechanisms** or use concurrent data structures if the Trie will be accessed or modified in a multi-threaded environment.
 - **Balancing Trade-offs:** The choice between a standard Trie and more advanced structures (like a **suffix tree** or a **compressed Trie**) can affect performance and complexity. Analyze the specific requirements of your application (e.g., search speed, memory efficiency) to choose the most appropriate data structure.

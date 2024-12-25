@@ -122,6 +122,59 @@ class UnionFind:
 
 </Scrollycoding>
 
+## Common mistakes
+
+1. Wrong Path Compression Implementation
+```python
+# Wrong: no path compression
+def find(self, p):
+    while self.parent[p] != p:  # Just traverses up
+        p = self.parent[p]
+    return p
+# Wrong: incorrect recursion
+def find(self, p):
+    if self.parent[p] != p:
+        return self.find(self.parent[p])  # Doesn't compress
+# Correct:
+def find(self, p):
+    if self.parent[p] != p:
+        self.parent[p] = self.find(self.parent[p])
+    return self.parent[p]
+```
+
+2. Wrong Union by Rank Implementation
+```python
+# Wrong: not using ranks
+def union(self, p, q):
+    rootP = self.find(p)
+    rootQ = self.find(q)
+    self.parent[rootQ] = rootP  # Always merges to rootP
+# Wrong: incorrect rank update
+def union(self, p, q):
+    if self.rank[rootP] == self.rank[rootQ]:
+        self.rank[rootP] += 1
+        self.rank[rootQ] += 1  # Should only increment one
+# Correct:
+if self.rank[rootP] == self.rank[rootQ]:
+    self.parent[rootQ] = rootP
+    self.rank[rootP] += 1
+```
+
+3. Wrong Connected Check
+```python
+# Wrong: not using find
+def connected(self, p, q):
+    return self.parent[p] == self.parent[q]  # Should use find()
+# Wrong: redundant finds
+def connected(self, p, q):
+    rootP = self.find(p)
+    rootQ = self.find(q)
+    return self.find(rootP) == self.find(rootQ)  # Unnecessary finds
+# Correct:
+def connected(self, p, q):
+    return self.find(p) == self.find(q)
+```
+
 ## Issues and consideration
 - Thread Safety: If the class is intended for concurrent use, consider implementing locking mechanisms to prevent race conditions.
 

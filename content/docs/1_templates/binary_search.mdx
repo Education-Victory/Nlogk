@@ -84,34 +84,34 @@ def valid(num, target):
 
 1. Wrong Boundary Condition
 ```python code
-# ❌ Wrong
-    while left <= right:  # In the code template can lead to infinite loop
-# ✅ Correct 
-    while left < right:
+# Wrong
+while left <= right:  # In the code template can lead to infinite loop
+# Correct 
+while left < right:
 ```
 
 2. Wrong Initial Right Boundary
 ```python code
-# ❌ Wrong: might miss last element
-    right = len(nums) - 1
-# ✅ Correct: for lower_bound
-    right = len(nums)
+# Wrong: might miss last element
+right = len(nums) - 1
+# Correct: for lower_bound
+right = len(nums)
 ```
 
 
 3. Wrong Update of Left/Right Pointers
 ```python code
-# ❌ Wrong: missing +1 when updating left
-    if not valid(nums[mid], target):
-        left = mid  # This can lead to infinite loop
-# ❌ Wrong: adding +1 when updating right
-    if valid(nums[mid], target):
-        right = mid + 1  # This skips potential answer
-# ✅ Correct:
-    if valid(nums[mid], target):
-        right = mid
-    else:
-        left = mid + 1
+# Wrong: missing +1 when updating left
+if not valid(nums[mid], target):
+    left = mid  # This can lead to infinite loop
+# Wrong: adding +1 when updating right
+if valid(nums[mid], target):
+    right = mid + 1  # This skips potential answer
+# Correct:
+if valid(nums[mid], target):
+    right = mid
+else:
+    left = mid + 1
 ```
 
 ## Issues and consideration

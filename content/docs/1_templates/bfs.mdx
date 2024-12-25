@@ -102,39 +102,39 @@ def bfs(root):
 ## Common mistakes
 1. Wrong Queue Initialization
 ```python code
-# ❌ Wrong: not checking for null root
-    queue = deque([root])  # Will fail if root is None
-# ❌ Wrong: using list instead of deque
-    queue = [root]  # O(n) for popleft operation
-# ✅ Correct:
-    if not root:
-        return []
-    queue = deque([root])  # O(1) for popleft operation
+# Wrong: not checking for null root
+queue = deque([root])  # Will fail if root is None
+# Wrong: using list instead of deque
+queue = [root]  # O(n) for popleft operation
+# Correct:
+if not root:
+    return []
+queue = deque([root])  # O(1) for popleft operation
 ```
 
 2. Wrong Queue Operation
 ```python code
-# ❌ Wrong: using pop() instead of popleft()
-    node = queue.pop()  # Gets right-most instead of left-most
-# ❌ Wrong: using append() on wrong side
-    queue.appendleft(node.left)  # Adds in wrong order
-# ✅ Correct:
-    node = queue.popleft()  # FIFO order
-    queue.append(node.left)  # Add to right side
+# Wrong: using pop() instead of popleft()
+node = queue.pop()  # Gets right-most instead of left-most
+# Wrong: using append() on wrong side
+queue.appendleft(node.left)  # Adds in wrong order
+# Correct:
+node = queue.popleft()  # FIFO order
+queue.append(node.left)  # Add to right side
 ```
 
 3. Wrong Child Node Check
 ```python code
-# ❌ Wrong: missing null check
-    queue.append(node.left)  # Will fail if left is None
+# Wrong: missing null check
+queue.append(node.left)  # Will fail if left is None
+queue.append(node.right)
+# Wrong: wrong order of checks
+if node and node.left:  # Redundant if node is already checked
+# Correct:
+if node.left:
+    queue.append(node.left)
+if node.right:
     queue.append(node.right)
-# ❌ Wrong: wrong order of checks
-    if node and node.left:  # Redundant if node is already checked
-# ✅ Correct:
-    if node.left:
-        queue.append(node.left)
-    if node.right:
-        queue.append(node.right)
 ```
 
 ## Issues and consideration

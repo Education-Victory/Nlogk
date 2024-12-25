@@ -104,6 +104,33 @@ def valid(state, char):
 
 </Scrollycoding>
 
+## Common mistakes
+
+1. Wrong State Initialization/Update
+```python
+# Wrong: forgetting to initialize state
+state[s[i]] += 1  # KeyError if not using defaultdict
+# Wrong: incorrect state cleanup
+if state[s[left]] == 0:  # Should remove key when count is 0
+    state[s[left]] -= 1  # Creates negative counts
+# Correct:
+state = defaultdict(int)
+state[s[i]] += 1
+if state[s[left]] == 0:
+    del state[s[left]]
+```
+
+2. Wrong Window Boundary Update
+```python
+# Wrong: incorrect window size calculation
+res = max(res, i - left)  # Missing +1 for inclusive range
+# Wrong: incorrect left pointer movement
+left = i  # Skips too many characters
+# Correct:
+res = max(res, i - left + 1)
+left += 1
+```
+
 ## Issues and consideration
 - **Input Validation:** The function does not validate the input type. If s is not a string, the code will raise errors. Adding a check to ensure s is a string would improve robustness.
 

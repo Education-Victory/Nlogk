@@ -76,40 +76,40 @@ def next_greater_elements(nums):
 ## Common mistakes
 1. Wrong Stack Comparison Direction
 ```python code
-# ❌ Wrong:
-    while stack and nums[stack[-1]] > nums[i]:  # Finds next smaller element
-# ✅ Correct:
-    while stack and nums[stack[-1]] < nums[i]:  # Finds next greater element
+# Wrong:
+while stack and nums[stack[-1]] > nums[i]:  # Finds next smaller element
+# Correct:
+while stack and nums[stack[-1]] < nums[i]:  # Finds next greater element
 ```
 
 2. Wrong Stack Content Storage
 ```python code
-# ❌ Wrong: storing values instead of indices
-    stack.append(nums[i])  # Can't track original positions
-    result[stack.pop()] = nums[i]  # Will cause error
-# ✅ Correct:
-    stack.append(i)  # Store indices to track positions
-    index = stack.pop()
-    result[index] = nums[i]
+# Wrong: storing values instead of indices
+stack.append(nums[i])  # Can't track original positions
+result[stack.pop()] = nums[i]  # Will cause error
+# Correct:
+stack.append(i)  # Store indices to track positions
+index = stack.pop()
+result[index] = nums[i]
 ```
 
 3. Wrong Result Array Initialization
 ```python code
-# ❌ Wrong: using empty list or zeros
-    result = []  # Can't index into empty list
-    result = [0] * n  # Can't distinguish between actual 0 and no answer
-# ✅ Correct:
-    result = [-1] * n  # Use -1 to indicate no greater element found
+# Wrong: using empty list or zeros
+result = []  # Can't index into empty list
+result = [0] * n  # Can't distinguish between actual 0 and no answer
+# Correct:
+result = [-1] * n  # Use -1 to indicate no greater element found
 ```
 
 4. Wrong Stack Empty Check
 ```python code
-# ❌ Wrong: missing stack check
-    while nums[stack[-1]] < nums[i]:  # Will error on empty stack
-# ❌ Wrong: wrong order of conditions
-    while nums[stack[-1]] < nums[i] and stack:  # Will error
-# ✅ Correct:
-    while stack and nums[stack[-1]] < nums[i]:  # Check stack first
+# Wrong: missing stack check
+while nums[stack[-1]] < nums[i]:  # Will error on empty stack
+# Wrong: wrong order of conditions
+while nums[stack[-1]] < nums[i] and stack:  # Will error
+# Correct:
+while stack and nums[stack[-1]] < nums[i]:  # Check stack first
 ```
 
 

@@ -26,29 +26,27 @@ import { Scrollycoding } from "@/components/scrollycoding"
 2. `queue = deque([node for node in graph if indegree[node] == 0]):` A deque (double-ended queue) is initialized with nodes that have an indegree of zero. These are the starting points for the topological sort, as they don't have any prerequisites.
 
 ```python !code
-# !mark(1:5) gold
-class Solution:
-    def topological_sort(self, graph):
-        queue = deque([node for node in graph if indegree[node] == 0])
-        result = []
-        indegree = defaultdict(int)
+# !mark(1:4) gold
+def topological_sort(graph):
+    queue = deque([node for node in graph if indegree[node] == 0])
+    result = []
+    indegree = defaultdict(int)
 ```
 
 ## !!steps Calculate node indegree
 
-3. The outer loop goes through each `node` in the graph. The inner loop processes each `neighbor` of the current `node`.
-4. The indegree of each `neighbor` is incremented by 1, counting how many edges point to it.
+3. The outer loop goes through each `node` in the graph. The inner loop processes each `nei` of the current `node`.
+4. The indegree of each `nei` is incremented by 1, counting how many edges point to it.
 
 ```python !code
-class Solution:
-    def topological_sort(self, graph):
-        queue = deque([node for node in graph if indegree[node] == 0])
-        result = []
-        indegree = defaultdict(int)
-        # !mark(1:3) gold
-        for node in graph:
-            for neighbor in graph[node]:
-                indegree[neighbor] += 1
+def topological_sort(graph):
+    queue = deque([node for node in graph if indegree[node] == 0])
+    result = []
+    indegree = defaultdict(int)
+    # !mark(1:3) gold
+    for node in graph:
+        for nei in graph[node]:
+            indegree[nei] += 1
 ```
 
 ## !!steps Processes node
@@ -57,50 +55,71 @@ class Solution:
 6. `node = queue.popleft():` The `popleft()` method removes and returns the first node from the queue. This node is the next one to be processed in the topological order. 
 
 ```python !code
-class Solution:
-    def topological_sort(self, graph):
-        queue = deque([node for node in graph if indegree[node] == 0])
-        result = []
-        indegree = defaultdict(int)
-        for node in graph:
-            for neighbor in graph[node]:
-                indegree[neighbor] += 1
+def topological_sort(graph):
+    queue = deque([node for node in graph if indegree[node] == 0])
+    result = []
+    indegree = defaultdict(int)
+    for node in graph:
+        for nei in graph[node]:
+            indegree[nei] += 1
 
-        # !mark(1:3) gold
-        while queue:
-            node = queue.popleft()
-            result.append(node)
+    # !mark(1:3) gold
+    while queue:
+        node = queue.popleft()
+        result.append(node)
 ```
 
 ## !!steps Updating indegrees
 
-7. `for neighbor in graph[node]:` This loop goes through each `neighbor` of the current `node`. These are the nodes that are directly reachable from `node`.
-8. `indegree[neighbor] -= 1:` The indegree of the `neighbor` is decreased by 1. This reflects that one incoming edge (from `node` to `neighbor`) has been processed.
-9. `if indegree[neighbor] == 0:` After decrementing, Checks if the `neighbor` now has an indegree of zero. This means there are no remaining incoming edges to this node.
-10. `queue.append(neighbor):` If the indegree is zero, the `neighbor` is added to the `queue`, making it ready to be processed in subsequent iterations.
+7. `for nei in graph[node]:` This loop goes through each `nei` of the current `node`. These are the nodes that are directly reachable from `node`.
+8. `indegree[nei] -= 1:` The indegree of the `nei` is decreased by 1. This reflects that one incoming edge (from `node` to `nei`) has been processed.
+9. `if indegree[nei] == 0:` After decrementing, Checks if the `nei` now has an indegree of zero. This means there are no remaining incoming edges to this node.
+10. `queue.append(nei):` If the indegree is zero, the `nei` is added to the `queue`, making it ready to be processed in subsequent iterations.
 
 ```python !code
-class Solution:
-    def topological_sort(self, graph):
-        queue = deque([node for node in graph if indegree[node] == 0])
-        result = []
-        indegree = defaultdict(int)
-        for node in graph:
-            for neighbor in graph[node]:
-                indegree[neighbor] += 1
+def topological_sort(graph):
+    queue = deque([node for node in graph if indegree[node] == 0])
+    result = []
+    indegree = defaultdict(int)
+    for node in graph:
+        for nei in graph[node]:
+            indegree[nei] += 1
 
-        while queue:
-            node = queue.popleft()
-            result.append(node)
-            # !mark(1:5) gold
-            for neighbor in graph[node]:
-                    indegree[neighbor] -= 1
-                    if indegree[neighbor] == 0:
-                        queue.append(neighbor)
-        return result
+    while queue:
+        node = queue.popleft()
+        result.append(node)
+        # !mark(1:5) gold
+        for nei in graph[node]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    queue.append(nei)
+    return result
 ```
 
 </Scrollycoding>
+
+## Common mistakes
+
+1. Wrong Cycle Detection
+```python
+# Wrong: missing cycle detection
+return result  # Always returns result without checking for cycles
+# Correct:
+if len(result) != len(graph):  # Check if all nodes are visited
+    return []  # or raise exception for cycle detection
+return result
+```
+
+2. Wrong Queue Operation
+```python
+# Wrong: using pop() instead of popleft()
+node = queue.pop()  # Gets last element instead of first
+# Wrong: using append_left instead of append
+queue.appendleft(nei)  # Adds to wrong end
+# Correct:
+node = queue.popleft()
+queue.append(nei)
+```
 
 ## Issues and consideration
 - Ensure that the input graph is a valid directed acyclic graph (DAG). Topological sorting is only applicable to DAGs.
@@ -129,10 +148,10 @@ class Solution:
         while queue:
             node = queue.popleft()
             result.append(node)
-            for neighbor in graph[node]:
-                indegree[neighbor] -= 1
-                if indegree[neighbor] == 0:
-                    queue.append(neighbor)
+            for nei in graph[node]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    queue.append(nei)
         
         # Step 4: Check if we were able to schedule all courses
         if len(result) == numCourses:

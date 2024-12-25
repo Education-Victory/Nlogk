@@ -105,6 +105,35 @@ def valid(state):
 
 </Scrollycoding>
 
+## Common mistakes
+
+1. Wrong State Cleanup
+```python
+# Wrong: forgetting to cleanup state
+state[s[left]] -= 1
+left += 1  # Forgot to delete zero count
+# Wrong: incorrect cleanup condition
+if state[s[left]] <= 0:  # Should be exactly 0
+    del state[s[left]]
+# Correct:
+state[s[left]] -= 1
+if state[s[left]] == 0:
+    del state[s[left]]
+left += 1
+```
+
+2. Wrong Result Initialization/Return
+```python
+# Wrong: incorrect initialization
+res = -1  # Should be inf for minimum
+# Wrong: incorrect return condition
+return res if res != float('inf') else 0  # Wrong default
+# Correct:
+res = float('inf')
+return -1 if res == float('inf') else res
+```
+
+
 ## Issues and consideration
 
 
