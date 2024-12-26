@@ -1,0 +1,169 @@
+---
+title: Multiple
+description: multiple
+full: true
+---
+
+<div className="grid grid-cols-2 gap-4">
+  <div>
+
+### Set Operations
+
+```python
+# Example: Set operations - union
+set_a = {1, 2, 3}
+set_b = {3, 4, 5}
+union = set_a | set_b  # Output: {1, 2, 3, 4, 5}
+
+# Example: Set operations - intersection
+intersection = set_a & set_b  # Output: {3}
+
+# Example: Set operations - difference
+difference = set_a - set_b  # Output: {1, 2}
+
+# Example: Set operations - symmetric difference
+symmetric_difference = set_a ^ set_b  # Output: {1, 2, 4, 5}
+
+# Example: Set operations - subset
+set_c = {1, 2}
+is_subset = set_c <= set_a  # Output: True
+
+# Example: Set operations - superset
+is_superset = set_a >= set_c  # Output: True
+```
+
+### Slicing Operations
+```python
+# Example: Reversing a list using slice
+reversed_list = my_list[::-1]  # Output: [5, 4, 3, 2, 1, 0]
+
+# Example: Slicing a list to get the last three elements
+last_three = my_list[-3:]  # Output: [3, 4, 5]
+
+# Example: Slicing a string to get every second character
+every_second_char = "abcdef"[::2]  # Output: 'ace'
+
+# Example 9: Slicing a list with negative indices
+negative_index_slice = my_list[-4:-1]  # Output: [2, 3, 4]
+```
+
+### Bit Manipulation
+
+```python
+# Example: Check if a number is even or odd
+num = 5
+is_even = (num & 1) == 0  # Output: False
+
+# Example: Set a bit at a specific position
+bit_position = 2
+num = 5  # Binary: 101
+num |= (1 << bit_position)  # Set the bit at position 2
+# num now is 7 (Binary: 111)
+
+# Example: Clear a bit at a specific position
+num = 7  # Binary: 111
+num &= ~(1 << bit_position)  # Clear the bit at position 2
+# num now is 5 (Binary: 101)
+
+# Example: Toggle a bit at a specific position
+num = 5  # Binary: 101
+num ^= (1 << bit_position)  # Toggle the bit at position 2
+# num now is 7 (Binary: 111)
+
+# Example: Check if a bit is set at a specific position
+is_set = (num & (1 << bit_position)) != 0  # Output: True
+
+# Example: Count the number of set bits (Hamming Weight)
+count = 0
+num = 7  # Binary: 111
+while num:
+    count += num & 1
+    num >>= 1
+# count now is 3
+
+# Example: Get the rightmost set bit
+num = 10  # Binary: 1010
+rightmost_set_bit = num & -num  # Output: 2 (Binary: 10)
+
+# Example: Calculate if a number is a power of two
+num = 8
+is_power_of_two = (num > 0) and (num & (num - 1)) == 0  # Output: True
+
+# Example: Clear the last set bit
+num = 10  # Binary: 1010
+num &= (num - 1)  # Clears the rightmost set bit
+# num now is 8 (Binary: 1000)
+```
+
+</div>
+
+<div>
+### Math
+
+```python
+# Example: Using pow to calculate a power
+power_result = pow(2, 3)  # Output: 8 (2^3)
+
+# Example: Using pow with a negative exponent
+negative_exponent = pow(2, -2)  # Output: 0.25 (1/(2^2))
+
+# Example: Using pow for multiple arguments (base, exponent, modulus)
+modulus_power = pow(3, 2, 5)  # Output: 4 (3^2 % 5)
+
+# Example: Calculate the sine of an angle (in radians)
+sine_value = math.sin(math.pi / 2)  # Output: 1.0
+
+# Example: Find the logarithm (base 10)
+logarithm_value = math.log10(100)  # Output: 2.0
+
+# Example: Find the natural logarithm
+natural_log_value = math.log(math.e)  # Output: 1.0
+
+# Example: Calculate the greatest common divisor (GCD)
+gcd_value = math.gcd(48, 18)  # Output: 6
+
+# Example: Return the ceiling of x, the smallest integer greater than or equal to x
+rounded_value = math.ceil(4.2)  # Output: 5
+
+# Example: Return the floor of x, the largest integer less than or equal to x
+rounded_value = math.floor(4.2)  # Output: 4
+```
+
+### Random
+
+```python
+# Return a random number between min and max
+min_val = 5
+max_val = 15
+random_in_range = random.randint(min_val, max_val)
+
+# Return a random number between 1 and 10
+n = 10
+random_number = random.randint(1, n)
+
+# Return a random double between 0.0 and 1.0
+random_double = random.random()
+
+# Return a random boolean value (True or False)
+random_boolean = random.choice([True, False])
+```
+
+### Strip Operations
+
+```python
+# Example: Strip whitespace from both ends
+stripped = "   hello   ".strip()  # Output: 'hello'
+
+# Example: Strip specific characters
+stripped_chars = "---hello---".strip('-')  # Output: 'hello'
+
+# Example: Strip only leading whitespace
+leading_strip = "   hello".lstrip()  # Output: 'hello'
+
+# Example: Strip only trailing whitespace
+trailing_strip = "hello   ".rstrip()  # Output: 'hello'
+```
+
+</div>
+
+</div>
