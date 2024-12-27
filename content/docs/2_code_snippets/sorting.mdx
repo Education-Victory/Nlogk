@@ -1,0 +1,71 @@
+---
+title: Sorting
+description: Sorting
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+
+<Scrollycoding>
+
+## !!steps Basic Sorting
+
+- `sorted()`: Basic sorting of integers
+- `sorted()` with `reverse=True`: Sorting in descending order
+- Simple list sorting examples
+
+```python !code
+# !mark(1:7) gold
+numbers = [3, 1, 4, 2]
+numbers.sort()                                   
+# numbers = [1, 2, 3, 4]
+sorted_numbers = sorted(numbers)                
+# sorted_numbers = [1, 2, 3, 4]
+sorted_numbers = sorted(numbers, reverse=True)  
+# sorted_numbers = [4, 3, 2, 1]
+```
+
+## !!steps String Sorting
+
+- Sorting strings by `len` using `key=len`
+- Basic string sorting (alphabetical)
+
+```python !code
+# !mark(1:5) gold
+fruits = ["apple", "banana", "kiwi"]
+sorted_by_length = sorted(fruits, key=len)
+# ['kiwi', 'apple', 'banana']
+sorted_alpha = sorted(fruits)                 
+# ['apple', 'banana', 'kiwi']
+```
+
+## !!steps Custom Sorting
+
+- Using lambda functions to sort by specific elements or specific keys
+- Custom sorting functions
+
+```python !code
+# !mark(1:4) gold
+# Sort by second element
+tuples = [(1, 'b'), (2, 'a'), (3, 'c')]
+sorted_tuples = sorted(tuples, key=lambda x: x[1])
+# Output: [(2, 'a'), (1, 'b'), (3, 'c')]
+
+# !mark(1:4) gold
+# Sort by age
+dicts = [{'name': 'Alice', 'age': 30}, {'name': 'Bob', 'age': 25}]
+sorted_dicts = sorted(dicts, key=lambda x: x['age'])
+# Output: [{'name': 'Bob', 'age': 25}, {'name': 'Alice', 'age': 30}]
+
+# !mark(1:8) gold
+# Sort by custom_sort()
+def custom_sort(x):
+    return x[1] - x[0]
+
+my_list_custom = [(2, 3), (1, 4), (5, 2)]
+# Sort using custom function
+sorted_custom = sorted(my_list_custom, key=custom_sort)
+# Output: [(5, 2), (2, 3), (1, 4)]
+```
+
+</Scrollycoding>
