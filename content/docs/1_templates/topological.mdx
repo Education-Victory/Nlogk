@@ -159,3 +159,73 @@ class Solution:
         else:
             return []  # Cycle detected or not all courses can be completed
 ```
+
+[444. Sequence Reconstruction](https://leetcode.com/problems/sequence-reconstruction/description/)
+
+```python
+class Solution:
+    def sequenceReconstruction(self, org: List[int], seqs: List[List[int]]) -> bool:
+        graph = defaultdict(set)
+        indegree = defaultdict(int)
+        
+        nodes = set()
+        for seq in seqs:
+            nodes.update(seq)
+            
+        if set(org) != nodes:
+            return False
+            
+        # Build graph from sequences
+        for seq in seqs:
+            for i in range(len(seq) - 1):
+                if seq[i+1] not in graph[seq[i]]:
+                    graph[seq[i]].add(seq[i+1])
+                    indegree[seq[i+1]] += 1
+        
+        queue = deque([x for x in org if indegree[x] == 0])
+        result = []
+        
+        while queue:
+            if len(queue) > 1:
+                return False
+            
+            node = queue.popleft()
+            result.append(node)
+            
+            for nei in graph[node]:
+                indegree[nei] -= 1
+                if indegree[nei] == 0:
+                    queue.append(nei)
+        return result == org
+```
+
+[1136. Parallel Courses](https://leetcode.com/problems/parallel-courses/)
+
+```python
+class Solution:
+    def minimumSemesters(self, n: int, relations: List[List[int]]) -> int:
+        graph = defaultdict(list)
+        indegree = [0] * (n + 1)
+        
+        # Build graph
+        for prev, next in relations:
+            graph[prev].append(next)
+            indegree[next] += 1
+        
+        queue = deque([i for i in range(1, n + 1) if indegree[i] == 0])
+        semester = 0
+        count = 0
+        
+        while queue:
+            semester += 1
+            size = len(queue)
+            
+            for _ in range(size):
+                node = queue.popleft()
+                count += 1
+                for nei in graph[node]:
+                    indegree[nei] -= 1
+                    if indegree[nei] == 0:
+                        queue.append(nei)
+        return semester if count == n else -1
+```

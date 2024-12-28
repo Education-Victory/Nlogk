@@ -117,7 +117,7 @@ else:
 ## Issues and consideration
 - **Custom Comparators:** If using custom data types, ensure that the comparator correctly defines the ordering. This is crucial for the accuracy of the binary search.
 
-## Related Problem
+## Related Problems
 [69. Sqrt(x)](https://leetcode.com/problems/sqrtx/description/)
 
 ```python
@@ -157,6 +157,21 @@ class Solution:
         return isBadVersion(mid)
 ```
 
+[744. Find Smallest Letter Greater Than Target](https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/)
+
+```python
+class Solution:
+    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
+        left, right = 0, len(letters)
+        while left < right:
+            mid = left + (right - left) // 2
+            if letters[mid] > target:
+                right = mid
+            else:
+                left = mid + 1
+        return letters[left % len(letters)]
+```
+
 [875. Koko Eating Bananas](https://leetcode.com/problems/koko-eating-bananas/description/)
 
 ```python
@@ -176,6 +191,32 @@ class Solution:
         for pile in piles:
             hours_needed += (pile + k - 1) // k
         return hours_needed <= h
+```
+
+[1011. Capacity To Ship Packages Within D Days](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/description/)
+
+```python
+class Solution:
+    def shipWithinDays(self, weights: List[int], days: int) -> int:
+        def canShip(capacity):
+            days_needed = 1
+            current_load = 0
+            for weight in weights:
+                if current_load + weight > capacity:
+                    days_needed += 1
+                    current_load = weight
+                else:
+                    current_load += weight
+            return days_needed <= days
+        
+        left, right = max(weights), sum(weights)
+        while left < right:
+            mid = left + (right - left) // 2
+            if canShip(mid):
+                right = mid
+            else:
+                left = mid + 1
+        return left
 ```
 
 ## Resources

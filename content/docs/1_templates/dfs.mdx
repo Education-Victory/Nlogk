@@ -84,13 +84,32 @@ if not root:
 - `BFS VS DFS:` BFS is ideal for scenarios where you need the shortest path or to explore nodes level by level. DFS is better suited for problems that require exploring all possible options or paths, especially when the solution is deep in the tree or graph.
 
 ## Related Problem
+[110. Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/description/)
+
+```python
+class Solution:
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        def dfs(node):
+            if not node:
+                return 0
+            
+            left = dfs(node.left)
+            right = dfs(node.right)
+            
+            # -1 indicates unbalanced subtree
+            if left == -1 or right == -1 or abs(left - right) > 1:
+                return -1
+            
+            return max(left, right) + 1
+            
+        return dfs(root) != -1
+```
+
 [144. Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/description/)
 
 ```python
 class Solution:
     def preorderTraversal(self, root: TreeNode) -> List[int]:
-        result = []
-        
         def dfs(node):
             if not node:
                 return
@@ -98,6 +117,7 @@ class Solution:
             for child in (node.left, node.right):
                 dfs(child)
                 
+        result = []
         dfs(root)
         return result
 ```
@@ -125,3 +145,55 @@ class Solution:
         return dfs(root, 0)
 ```
 
+[200. Number of Islands](https://leetcode.com/problems/number-of-islands/description/)
+
+```python
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        def dfs(r, c):
+            if (r < 0 or r >= rows or 
+                c < 0 or c >= cols or 
+                grid[r][c] != '1'):
+                return
+            # Mark as visited
+            grid[r][c] = '#'
+            # Visit all adjacent cells
+            for nr, nc in [(r+1,c), (r-1,c), (r,c+1), (r,c-1)]:
+                dfs(nr, nc)
+
+        if not grid:
+            return 0
+            
+        rows, cols = len(grid), len(grid[0])
+        count = 0
+        
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == '1':
+                    dfs(r, c)
+                    count += 1
+                    
+        return count
+```
+
+[543. Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree/description/)
+
+```python
+class Solution:
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        def dfs(node):
+            if not node:
+                return 0
+            
+            left = dfs(node.left)
+            right = dfs(node.right)
+            # Update diameter if path through current node is longer
+            self.diameter = max(self.diameter, left + right)
+            
+            # Return height of current subtree
+            return max(left, right) + 1
+            
+        self.diameter = 0
+        dfs(root)
+        return self.diameter
+```

@@ -129,7 +129,6 @@ class Solution:
                 index = stack.pop()
                 result[nums2[index]] = nums2[i]
             stack.append(i)
-        
         # Build result for nums1 using the mapping
         return [result.get(x, -1) for x in nums1]
 
@@ -151,6 +150,46 @@ class Solution:
             stack.append(i)
 
         return result 
+```
+
+[901. Online Stock Span](https://leetcode.com/problems/online-stock-span/description/)
+
+```python
+class StockSpanner:
+    def __init__(self):
+        self.stack = []  # (price, span) pairs
+        
+    def next(self, price: int) -> int:
+        span = 1
+        while self.stack and self.stack[-1][0] <= price:
+            prev_price, prev_span = self.stack.pop()
+            span += prev_span
+            
+        self.stack.append((price, span))
+        return span
+```
+
+[1019. Next Greater Node In Linked List](https://leetcode.com/problems/next-greater-node-in-linked-list/description/)
+
+```python
+class Solution:
+    def nextLargerNodes(self, head: Optional[ListNode]) -> List[int]:
+        # Convert linked list to array
+        nums = []
+        while head:
+            nums.append(head.val)
+            head = head.next
+            
+        n = len(nums)
+        result = [0] * n
+        stack = []  # (index, value) pairs
+        
+        for i in range(n):
+            while stack and stack[-1][1] < nums[i]:
+                prev_idx, _ = stack.pop()
+                result[prev_idx] = nums[i]
+            stack.append((i, nums[i]))
+        return result
 ```
 
 ## Resources
