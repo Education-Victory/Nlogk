@@ -1,0 +1,173 @@
+---
+title: Buy and sell stock
+description: Buy and sell stock
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+
+## Code Template
+
+
+<Scrollycoding>
+
+## !!steps Base Case
+
+1. `n`: Number of price points. Adjust `k` based on whether transactions are unlimited.
+2. `if k >= n // 2:` checks if the number of allowed transactions (k) is at least half the number of price points (n). This means the trader can effectively buy and sell freely.
+3. `sum(max(0, prices[i] - prices[i - 1]) for i in range(1, n))` calculates total profit:
+    - `prices[i] - prices[i - 1]:` Computes daily price changes.
+    - `max(0, ...):` Ensures only positive changes (profits) are counted.
+    - `sum(...):` Adds up all the profitable changes.
+
+```python !code
+# !mark(1:14) gold
+def BasicProfit(self, k: int, prices: List[int], max_txn: int = float('inf')) -> int:
+    """
+    Universal solution for all stock trading problems
+    k: number of transactions allowed (use float('inf') for unlimited)
+    prices: list of stock prices
+    max_txn: maximum number of transactions allowed
+    """
+
+    n = len(prices)
+    k = min(k, n//2) if max_txn == float('inf') else max_txn
+    
+    # For unlimited transactions, use greedy approach
+    if k >= n//2:
+        return sum(max(0, prices[i] - prices[i-1]) for i in range(1, n))
+```
+
+## !!steps Dynamic Programming
+
+4. `dp[k][0]` represents maximum profit at k transactions without holding stock
+5. `dp[k][1]` represents maximum profit at k transactions while holding stock
+
+```python !code
+def BasicProfit(self, k: int, prices: List[int], max_txn: int = float('inf')) -> int:
+    """
+    Universal solution for all stock trading problems
+    k: number of transactions allowed (use float('inf') for unlimited)
+    prices: list of stock prices
+    max_txn: maximum number of transactions allowed
+    """
+
+    n = len(prices)
+    k = min(k, n//2) if max_txn == float('inf') else max_txn
+    
+    # For unlimited transactions, use greedy approach
+    if k >= n//2:
+        return sum(max(0, prices[i] - prices[i-1]) for i in range(1, n))
+
+    # !mark(1:2) gold
+    dp = [[-float('inf')] * 2 for _ in range(k + 1)]
+    dp[0][0] = 0
+```
+
+## !!steps Union function
+
+6. `dp[j][0] = max(dp[j][0], dp[j][1] + price)` updates the maximum profit when not holding stock (either stay in that state or sell stock).
+7. `dp[j][1] = max(dp[j][1], dp[j-1][0] - price)` updates the maximum profit while holding stock (either stay in that state or buy stock).
+
+```python !code
+def BasicProfit(self, k: int, prices: List[int], max_txn: int = float('inf')) -> int:
+    """
+    Universal solution for all stock trading problems
+    k: number of transactions allowed (use float('inf') for unlimited)
+    prices: list of stock prices
+    max_txn: maximum number of transactions allowed
+    """
+
+    n = len(prices)
+    k = min(k, n//2) if max_txn == float('inf') else max_txn
+    
+    # For unlimited transactions, use greedy approach
+    if k >= n//2:
+        return sum(max(0, prices[i] - prices[i-1]) for i in range(1, n))
+
+    dp = [[-float('inf')] * 2 for _ in range(k + 1)]
+    dp[0][0] = 0
+
+    # !mark(1:10) gold
+    for price in prices:
+        for j in range(k, 0, -1):
+            # Update maximum profit when we have j transactions
+            # Without holding stock
+            dp[j][0] = max(dp[j][0], dp[j][1] + price)
+            # While holding stock
+            dp[j][1] = max(dp[j][1], dp[j-1][0] - price)
+            
+    return max(0, max(dp[i][0] for i in range(k + 1)))
+```
+
+</Scrollycoding>
+
+## Common mistakes
+
+1. Wrong DP Array Initialization
+
+```python
+# Wrong: using 0 instead of -inf
+dp = [[0] * 2 for _ in range(k + 1)]  # Can't track losses properly
+# Wrong: forgetting to set initial state
+dp = [[-float('inf')] * 2 for _ in range(k + 1)]  # Forgot dp[0][0] = 0
+# Correct:
+dp = [[-float('inf')] * 2 for _ in range(k + 1)]
+dp[0][0] = 0  # Initial state with no transactions
+```
+
+2. Incorrect Return Value
+
+```python
+# Wrong: not handling negative profits
+return dp[k][0]  # Doesn't handle case where no transaction is better
+# Wrong: forgetting to check all transaction counts
+return max(dp[k][0], 0)  # Might miss better profit with fewer transactions
+# Correct:
+return max(0, max(dp[i][0] for i in range(k + 1)))
+```
+
+
+## Issues and consideration
+
+
+## Related Problem
+[121. Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)
+
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        return self.BasicProfit(1, prices, 1)
+```
+
+[122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
+
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        return self.BasicProfit(float('inf'), prices)
+```
+
+[122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
+
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        return self.BasicProfit(float('inf'), prices)
+```
+
+[123. Best Time to Buy and Sell Stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/description/)
+
+```python
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        return self.BasicProfit(2, prices, 2)
+```
+
+[188. Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/description/)
+
+```python
+class Solution:
+    def maxProfit(self, k, prices: List[int]) -> int:
+        return self.BasicProfit(k, prices, k)
+```
