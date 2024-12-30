@@ -8,7 +8,14 @@ import { Scrollycoding } from "@/components/scrollycoding"
 
 ## Basic
 
-Q: Design Unix File Search API to search file with different arguments as "extension", "size". The design should be maintainable to add new constraints and also should support AND, OR conditionals.
+Q: Design a Unix File Search API that allows users to search for files based on various criteria, such as:
+
+1. File Extension: Search for files with specific extensions (e.g., `.txt`, `.jpg`).
+2. File Size: Search for files within a specified size range (e.g., greater than 1MB, less than 100KB).
+3. File Name: Search for files that match a specific name or pattern.
+
+The design should be flexible and maintainable, allowing for easy addition of new search criteria in the future (e.g., by date modified, by owner). Additionally, the API should support combining search criteria using logical operators, such as AND and OR, to enable complex queries.
+
 
 A: We can use the **Specification Pattern** combined with the **Builder Pattern**. This design will ensure that the API is maintainable and extensible for future requirements.
 
@@ -21,17 +28,17 @@ A: We can use the **Specification Pattern** combined with the **Builder Pattern*
 
 ## !!steps Abstract Class And Subclasses
 
-1. This abstract class `FileSpecification` defines the interface for all specifications. It contains a method `is_satisfied_by` that checks if a given file meets the specification.
-2. Subclasses inherit from FileSpecification and implements the `is_satisfied_by` method.
+1. This abstract class `FileSpec` defines the interface for all spec. It contains a method `is_satisfied_by` that checks if a given file meets the speci.
+2. Subclasses inherit from FileSpec and implements the `is_satisfied_by` method.
 
 
 ```python !code
-class FileSpecification:
+class FileSpec:
     def is_satisfied_by(self, file: File) -> bool:
         # Abstract method to be implemented by subclasses
         pass
 
-class ExtensionSpecification(FileSpecification):
+class ExtensionSpec(FileSpec):
     def __init__(self, extension: str):
         self.extension = extension
 
@@ -39,7 +46,7 @@ class ExtensionSpecification(FileSpecification):
         # Check if the file's extension matches the specified extension
         return file.extension == self.extension
 
-class SizeSpecification(FileSpecification):
+class SizeSpec(FileSpec):
     def __init__(self, size: int, comparator: str):
         self.size = size
         self.comparator = comparator
@@ -57,62 +64,62 @@ class SizeSpecification(FileSpecification):
 
 ## !!steps Two Specifications
 
-3. `AndSpecification` class allows the combination of multiple specifications using a logical AND operation.
-It checks if a file satisfies all the provided specifications.
-4. `OrSpecification` class allows the combination of multiple specifications using a logical OR operation.
-It checks if a file satisfies at least one of the provided specifications.
+3. `AndSpec` class allows the combination of multiple spec using a logical AND operation.
+It checks if a file satisfies all the provided spec.
+4. `OrSpec` class allows the combination of multiple spec using a logical OR operation.
+It checks if a file satisfies at least one of the provided spec.
 
 ```python !code
-class AndSpecification(FileSpecification):
-    def __init__(self, *specifications: FileSpecification):
-        self.specifications = specifications
+class AndSpec(FileSpec):
+    def __init__(self, *spec: FileSpec):
+        self.spec = spec
 
     def is_satisfied_by(self, file: File) -> bool:
-        # Check if the file satisfies all specifications
-        return all(spec.is_satisfied_by(file) for spec in self.specifications)
+        # Check if the file satisfies all spec
+        return all(spec.is_satisfied_by(file) for spec in self.spec)
 
-class OrSpecification(FileSpecification):
-    def __init__(self, *specifications: FileSpecification):
-        self.specifications = specifications
+class OrSpec(FileSpec):
+    def __init__(self, *spec: FileSpec):
+        self.spec = spec
 
     def is_satisfied_by(self, file: File) -> bool:
-        # Check if the file satisfies any of the specifications
-        return any(spec.is_satisfied_by(file) for spec in self.specifications)
+        # Check if the file satisfies any of the spec
+        return any(spec.is_satisfied_by(file) for spec in self.spec)
 ```
 
 
 ## !!steps File Search
 
-5. `FileSearcher` class responsible for searching files based on a given specification. It takes a list of files and uses the specification to filter them.
-6. `FileSearchBuilder` class provides a fluent interface for constructing complex file search specifications.
-It allows users to add specifications incrementally and build either an AND or OR combination.
+5. `FileSearcher` class responsible for searching files based on a given speci. It takes a list of files and uses the speci to filter them.
+6. `FileSearchBuilder` class provides a fluent interface for constructing complex file search spec.
+It allows users to add spec incrementally and build either an AND or OR combination.
 
 ```python !code
 class FileSearcher:
     def __init__(self, files: List[File]):
         self.files = files
 
-    def find(self, specification: FileSpecification) -> List[File]:
-        # Filter files based on the provided specification
-        return [file for file in self.files if specification.is_satisfied_by(file)]
+    def find(self, speci: FileSpec) -> List[File]:
+        # Filter files based on the provided speci
+        return [file for file in self.files if speci.is_satisfied_by(file)]
 
 class FileSearchBuilder:
     def __init__(self):
-        self.specifications = []
+        self.spec = []
 
     def with_extension(self, extension: str):
-        self.specifications.append(ExtensionSpecification(extension))
+        self.spec.append(ExtensionSpec(extension))
         return self
 
     def with_size(self, size: int, comparator: str):
-        self.specifications.append(SizeSpecification(size, comparator))
+        self.spec.append(SizeSpec(size, comparator))
         return self
 
     def build_and(self):
-        return AndSpecification(*self.specifications)
+        return AndSpec(*self.spec)
 
     def build_or(self):
-        return OrSpecification(*self.specifications)
+        return OrSpec(*self.spec)
 ```
 
 ## !!steps Example Usage
@@ -126,20 +133,97 @@ searcher = FileSearcher(files)
 
 # Build a search for files with .txt extension AND size > 1000
 builder = FileSearchBuilder()
-specification = builder.with_extension('.txt').with_size(1000, '>').build_and()
-result = searcher.find(specification)
+speci = builder.with_extension('.txt').with_size(1000, '>').build_and()
+result = searcher.find(speci)
 
 # Build a search for files with .txt OR .md extension
 builder = FileSearchBuilder()
-specification = builder.with_extension('.txt').with_extension('.md').build_or()
-result = searcher.find(specification)
+speci = builder.with_extension('.txt').with_extension('.md').build_or()
+result = searcher.find(speci)
 ```
 
 
 </Scrollycoding>
 
-## Issues and consideration
-1. Performance Concerns: The find method iterates through all files for each search, which could be inefficient for large datasets. If performance becomes an issue, consider implementing indexing or caching strategies to speed up searches. You could also explore parallel processing for large file sets.
-2. Chaining Method Limitations: The `FileSearchBuilder` allows chaining of methods, but if `build_and()` or `build_or()` is called, the builder cannot be reused without reinitialization. This could lead to confusion.
+## Common Questions
 
+### **How can new search criteria be added to the API?**
+    - Extensibility: To add a new search criterion (e.g., by date modified), simply create a new class that implements FileSpec:
 
+    ```python
+    class DateModifiedSpecification(FileSpec):
+        def __init__(self, date):
+            self.date = date
+
+    def is_satisfied_by(self, file):
+        return file.date_modified >= self.date
+    ```
+
+    - Integration: This new speci can be integrated into the FileSearchBuilder without modifying existing code, adhering to the Open/Closed Principle. Users can now chain this new criterion:
+
+    ```python
+    search_spec = builder.with_extension('.txt').with_size(1024).with_date_modified('2023-01-01').build()
+    ```
+    
+### **What are the potential drawbacks of this design?**
+
+    - Performance: If the file list is large, filtering may become slow. Each spec checks every file, which can lead to performance bottlenecks.
+    - Complexity: Introducing many spec can complicate the codebase, making it harder to understand and maintain. It's important to document each spec clearly.
+
+### **How would you modify this design to add caching for frequently used searches?**
+    - Cache Decorator: Wrap the FileSearcher with a caching layer to store results of frequently executed searches:
+
+    ```python
+    class CachedFileSearcher(FileSearcher):
+        def __init__(self, searcher):
+            self.searcher = searcher
+            self.cache = {}
+
+        def search(self, spec):
+            key = str(spec)  # Generate a unique key based on spec
+            if key in self.cache:
+                return self.cache[key]
+            results = self.searcher.search(spec)
+            self.cache[key] = results
+            return results
+    ```
+    - LRU Cache: Implement an LRU (Least Recently Used) cache for search results to manage memory effectively.
+    - Cache Key: The cache key can be based on the parameters used in the spec.
+    - Cache Invalidation: Ensure to invalidate the cache when files change to maintain accuracy.
+
+### **How does this design handle error cases and invalid inputs?**
+    - Input Validation: Validate inputs in the constructors of specifications to ensure they are valid:
+
+    ```python
+    class SizeSpec(FileSpec):
+        def __init__(self, size):
+            if size < 0:
+                raise ValueError("Size must be non-negative")
+            self.size = size
+    ```
+    - Error Handling: Implement proper error handling in the `is_satisfied_by` methods to catch unexpected issues.
+    - Custom Exceptions: Use custom exceptions for different error cases to provide clearer feedback.
+    - Builder Validation: Add validation in the Builder methods to ensure that the search criteria are valid before execution.
+   
+
+### **How would you make this design thread-safe?**
+    - Immutable File Objects: Make File objects immutable to prevent concurrent modifications.
+    - Thread-Safe Collections: Use thread-safe collections (like queue.Queue) for the file list.
+    - Synchronization: Implement synchronization in FileSearcher if needed to prevent race conditions.
+
+### **How would you optimize the search performance for large file systems?**
+    - Indexing: Implement indexing for common search criteria to speed up lookups.
+    ```python
+    class FileIndexer:
+        def __init__(self):
+            self.index = {}
+
+        def index_file(self, file):
+            # Index by extension
+            if file.extension not in self.index:
+                self.index[file.extension] = []
+            self.index[file.extension].append(file)
+    ```
+    - Parallel Processing: Use parallel processing (e.g., concurrent.futures) to handle large file lists efficiently.
+    - Lazy Loading: Implement lazy loading for file attributes to reduce memory usage.
+    - Early Termination: Add early termination options for searches to stop processing once a certain condition is met, improving performance.
