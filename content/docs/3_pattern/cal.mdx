@@ -1,0 +1,199 @@
+---
+title: Basic Calculator
+description: Basic Calculator
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+
+## Code Pattern
+
+<Scrollycoding>
+
+
+## !!steps Get Number
+
+1. `get_number`: Reads and converts a sequence of digits from the string into an integer.
+
+```python !code
+# !mark(1:8) gold
+def calculate(self, s: str) -> int:
+    self.index = 0
+    def get_number():
+        num = 0
+        while self.index < len(s) and s[self.index].isdigit():
+            num = num * 10 + int(s[self.index])
+            self.index += 1
+        return num
+```
+
+## !!steps Update Stack
+
+2. `update_stack`: Modifies the stack based on the arithmetic operation specified, enabling the evaluation of expressions in a structured manner.
+    - Addition: If the operator is `+`, it appends num to the stack.
+    - Subtraction: If the operator is `-`, it appends -num to the stack to account for the negative value.
+    - Multiplication: If the operator is `*`, it pops the top value from the stack, multiplies it by num, and appends the result back to the stack.
+    - Division: If the operator is `/`, it pops the top value, performs integer division with num, and appends the result back to the stack (using int to ensure integer division).
+
+```python !code
+def calculate(self, s: str) -> int:
+    self.index = 0
+    def get_number():
+        num = 0
+        while self.index < len(s) and s[self.index].isdigit():
+            num = num * 10 + int(s[self.index])
+            self.index += 1
+        return num
+
+    # !mark(1:11) gold
+    def update_stack(stack, num, operator):
+        if operator == '+':
+            stack.append(num)
+        elif operator == '-':
+            stack.append(-num)
+        elif operator == '*':
+            stack.append(stack.pop() * num)
+        elif operator == '/':
+            prev = stack.pop()
+            result = abs(prev) // abs(num)
+            stack.append(result if prev * num >= 0 else -result)
+```
+
+## !!steps Calculate
+
+3. Character Processing
+    - If the character is a digit, it retrieves the full number.
+    - If it encounters a `(`, it recursively calls calc() to evaluate the expression inside.
+    - If it sees a `)`, it updates the stack with the current num and operator, then returns the sum of the stack.
+    - For operators (`+`, `-`, `*`, `/`), it updates the stack with the current number and operator, sets the new operator, and resets num.
+
+```python !code
+def calculate(self, s: str) -> int:
+    self.index = 0
+    def get_number():
+        num = 0
+        while self.index < len(s) and s[self.index].isdigit():
+            num = num * 10 + int(s[self.index])
+            self.index += 1
+        return num
+    
+    def update_stack(stack, num, operator):
+        if operator == '+':
+            stack.append(num)
+        elif operator == '-':
+            stack.append(-num)
+        elif operator == '*':
+            stack.append(stack.pop() * num)
+        elif operator == '/':
+            prev = stack.pop()
+            result = abs(prev) // abs(num)
+            stack.append(result if prev * num >= 0 else -result)
+    
+    # !mark(1:29) gold
+    def calc():
+        stack = []
+        num = 0
+        operator = '+'
+        
+        while self.index < len(s):
+            char = s[self.index]
+            if char.isdigit():
+                num = get_number()
+            elif char == '(':
+                self.index += 1
+                num = calc()
+            elif char == ')':
+                update_stack(stack, num, operator)
+                self.index += 1
+                return sum(stack)
+            elif char in '+-*/':
+                update_stack(stack, num, operator)
+                operator = char
+                num = 0
+                self.index += 1
+            else:
+                self.index += 1
+                continue
+        
+        update_stack(stack, num, operator)
+        return sum(stack)
+    
+    return calc()
+```
+
+</Scrollycoding>
+
+## Common mistakes
+
+1. Forget to reset num after an operator
+
+```python
+# Wrong: Forgetting to reset num after processing an operator
+elif char in '+-*/':
+    update_stack(stack, num, operator)
+    # num is not reset here, leading to incorrect calculations
+# Correct:
+elif char in '+-*/':
+    update_stack(stack, num, operator)
+    operator = char
+    num = 0  # Reset num for the next number
+```
+
+## Related Problem
+
+[224. Basic Calculator](https://leetcode.com/problems/basic-calculator/description/)
+
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        self.index = 0
+        
+        def get_number():
+            # Use the code above
+        
+        def update_stack(stack, num, operator):
+            # Use the code above
+        
+        def calc():
+            # Use the code above
+            
+        return calc()
+```
+
+[227. Basic Calculator II](https://leetcode.com/problems/basic-calculator-ii/description/)
+
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        self.index = 0
+        
+        def get_number():
+            # Use the code above
+        
+        def update_stack(stack, num, operator):
+            # Use the code above
+        
+        def calc():
+            # Use the code above
+            
+        return calc()
+```
+
+[227. Basic Calculator III](https://leetcode.com/problems/basic-calculator-iii/description/)
+
+```python
+class Solution:
+    def calculate(self, s: str) -> int:
+        self.index = 0
+        
+        def get_number():
+            # Use the code above
+        
+        def update_stack(stack, num, operator):
+            # Use the code above
+        
+        def calc():
+            # Use the code above
+            
+        return calc()
+```
