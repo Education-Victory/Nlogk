@@ -1,0 +1,120 @@
+---
+title: Quick Select
+description: Quickselect for Finding the k-th Smallest Element
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+
+## Use Cases
+
+| Use Case                          | Description                                                                 | Example                                                                 |
+|-----------------------------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Finding the k-th Smallest Element | Efficiently find the **k-th smallest element** in an unsorted array without fully sorting it. | For the array `[3, 1, 4, 1, 5, 9]`, the 3rd smallest element is `3`.   |
+| Median Finding                    | Use Quickselect to find the **median** of an unsorted array.                | For the array `[5, 3, 1, 2, 4]`, the median is `3`.                     |
+| Space-Efficient Selection         | Perform selection in **O(1) space** (in-place) with an average time complexity of O(n). | Useful for large datasets where memory is limited.                      |
+
+## Code Template
+
+<Scrollycoding>
+
+## !!steps Partition Function
+
+1. The `partition` function rearranges the array such that elements less than the pivot are on the left, and elements greater than the pivot are on the right.
+2. The pivot is moved to its correct position in the array.
+
+```python !code
+# !mark(1:4) gold
+def partition(arr, left, right, pivot_index):
+    pivot_value = arr[pivot_index]
+    arr[pivot_index], arr[right] = arr[right], arr[pivot_index]
+    store_index = left
+```
+
+## !!steps Partition Logic
+
+3. Iterate through the array and swap elements smaller than the pivot to the left.
+4. Move the pivot to its final position.
+
+```python !code
+def partition(arr, left, right, pivot_index):
+    pivot_value = arr[pivot_index]
+    arr[pivot_index], arr[right] = arr[right], arr[pivot_index]
+    store_index = left
+
+    # !mark(1:8) gold
+    for i in range(left, right):
+        if arr[i] < pivot_value:
+            arr[store_index], arr[i] = arr[i], arr[store_index]
+            store_index += 1
+
+    # Move pivot to its final place
+    arr[right], arr[store_index] = arr[store_index], arr[right]
+    return store_index
+```
+
+## !!steps Quickselect Function
+
+5. The `quickselect` function recursively partitions the array to find the k-th smallest element.
+6. If the pivot index matches `k`, return the element at that index.
+7. If `k` is less than the pivot index, search the left subarray; otherwise, search the right subarray.
+
+```python !code
+def partition(arr, left, right, pivot_index):
+    pivot_value = arr[pivot_index]
+    arr[pivot_index], arr[right] = arr[right], arr[pivot_index]
+    store_index = left
+
+    for i in range(left, right):
+        if arr[i] < pivot_value:
+            arr[store_index], arr[i] = arr[i], arr[store_index]
+            store_index += 1
+
+    # Move pivot to its final place
+    arr[right], arr[store_index] = arr[store_index], arr[right]
+    return store_index
+
+# !mark(1:13) gold
+def quickselect(arr, left, right, k):
+    if left == right:
+        return arr[left]
+
+    pivot_index = random.randint(left, right)
+    pivot_index = partition(arr, left, right, pivot_index)
+
+    if k == pivot_index:
+        return arr[k]
+    elif k < pivot_index:
+        return quickselect(arr, left, pivot_index - 1, k)
+    else:
+        return quickselect(arr, pivot_index + 1, right, k)
+```
+</Scrollycoding>
+
+## Common Mistakes
+
+1. Incorrect Pivot Selection
+
+```python
+# Wrong: Using a fixed pivot (e.g., always the first element)
+pivot_index = left  # Can lead to worst-case O(n^2) performance
+# Correct: Use a random pivot
+pivot_index = random.randint(left, right)
+```
+
+2. Incorrect Partition Logic
+
+```python
+# Wrong: Not swapping elements correctly
+if arr[i] < pivot_value:
+    store_index += 1  # Missing swap
+# Correct:
+if arr[i] < pivot_value:
+    arr[store_index], arr[i] = arr[i], arr[store_index]
+    store_index += 1
+```
+
+## Issues and Considerations
+
+- **Worst-Case Performance:** Quickselect has a worst-case time complexity of O(n^2) if the pivot selection is poor. Using a random pivot mitigates this issue.
+- **Space Complexity:** Quickselect uses O(1) space (in-place) but has a O(log n) recursion stack space in the average case.

@@ -1,0 +1,231 @@
+---
+title: Morris Traversal
+description: Morris Traversal for Inorder Traversal
+full: true
+---
+
+import { Scrollycoding } from "@/components/scrollycoding"
+
+## Use Cases
+
+| Use Case                          | Description                                                                 | Example                                                                 |
+|-----------------------------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| Inorder Traversal Without Recursion or Stack | Perform an **inorder traversal** of a binary tree without using recursion or additional stack space. | For the tree `[1, null, 2, 3]`, the inorder traversal is `[1, 3, 2]`.   |
+| Space-Efficient Tree Traversal    | Traverse a binary tree in **O(1) space** (excluding the result storage).    | Useful for large trees where stack space is limited.                    |
+| Modifying Tree Structure Temporarily | Temporarily modify the tree structure to create links for traversal, then restore it. | Morris Traversal uses **threaded binary trees** to achieve this.        |
+
+## Code Template
+
+<Scrollycoding>
+
+## !!steps Initialize traversal
+
+1. Start with the `current` node as the root of the tree.
+2. Use a `result` list to store the inorder traversal values.
+
+```python !code
+# !mark(1:3) gold
+def inorder_traversal(self, root):
+    current = root
+    result = []
+```
+
+## !!steps Traverse the tree
+
+3. If the `current` node has no left child, add its value to the result and move to the right child.
+4. If the `current` node has a left child, find its **inorder predecessor** (the rightmost node in the left subtree).
+
+```python !code
+def inorder_traversal(self, root):
+    current = root
+    result = []
+
+    # !mark(1:8) gold
+    while current:
+        if not current.left:
+            result.append(current.val)
+            current = current.right
+        else:
+            predecessor = current.left
+            while predecessor.right and predecessor.right != current:
+                predecessor = predecessor.right
+```
+
+## !!steps Modify and restore the tree
+
+5. If the predecessor's right child is `None`, make `current` the right child of the predecessor (temporary link).
+6. If the predecessor's right child is already `current`, revert the link and add `current`'s value to the result.
+
+```python !code
+def inorder_traversal(self, root):
+    current = root
+    result = []
+
+    while current:
+        if not current.left:
+            result.append(current.val)
+            current = current.right
+        else:
+            predecessor = current.left
+            while predecessor.right and predecessor.right != current:
+                predecessor = predecessor.right
+            # !mark(1:9) gold
+            if not predecessor.right:
+                predecessor.right = current
+                current = current.left
+            else:
+                predecessor.right = None
+                result.append(current.val)
+                current = current.right
+    return result
+```
+
+</Scrollycoding>
+
+## Common Mistakes
+
+1. Incorrect Predecessor Link:
+```python
+# Wrong: Not checking if predecessor.right is already current
+if not predecessor.right:
+    predecessor.right = current
+    current = current.left
+# Correct:
+if not predecessor.right:
+    predecessor.right = current
+    current = current.left
+else:
+    predecessor.right = None
+    result.append(current.val)
+    current = current.right
+```
+
+2. Skipping Nodes
+```python
+# Wrong: Moving to the right child without adding the current node's value
+if not current.left:
+    current = current.right  # Missing result.append(current.val)
+# Correct:
+if not current.left:
+    result.append(current.val)
+    current = current.right
+```
+
+3. Infinite Loop
+```python
+# Wrong: Not reverting the predecessor link
+if not predecessor.right:
+    predecessor.right = current
+    current = current.left
+# Correct:
+if not predecessor.right:
+    predecessor.right = current
+    current = current.left
+else:
+    predecessor.right = None
+    result.append(current.val)
+    current = current.right
+```
+
+## Issues and Considerations
+
+- Tree Modification: Morris Traversal temporarily modifies the tree structure by creating threaded links. Ensure the tree is restored to its original state after traversal.
+- Space Complexity: While Morris Traversal uses O(1) space, it is not suitable for immutable trees or environments where tree modification is prohibited.
+- Performance: Morris Traversal has a time complexity of O(n) but may have higher constant factors due to tree modifications.
+
+
+[94. Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/submissions/592270619/)
+
+```python
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        current = root
+        result = []
+
+        while current:
+            if not current.left:
+                result.append(current.val)
+                current = current.right
+            else:
+                predecessor = current.left
+                while predecessor.right and predecessor.right != current:
+                    predecessor = predecessor.right
+
+                if not predecessor.right:
+                    predecessor.right = current
+                    current = current.left
+                else:
+                    predecessor.right = None
+                    result.append(current.val)
+                    current = current.right
+        return result
+```
+
+[99. Recover Binary Search Tree](https://leetcode.com/problems/recover-binary-search-tree/)
+
+```python
+class Solution:
+    def recoverTree(self, root: Optional[TreeNode]) -> None:
+        current = root
+        prev = TreeNode(float('-inf'))
+        first, second = None, None
+
+        while current:
+            if not current.left:
+                if prev.val > current.val:
+                    if not first:
+                        first = prev
+                    second = current
+                prev = current
+                current = current.right
+            else:
+                predecessor = current.left
+                while predecessor.right and predecessor.right != current:
+                    predecessor = predecessor.right
+
+                if not predecessor.right:
+                    predecessor.right = current
+                    current = current.left
+                else:
+                    predecessor.right = None
+                    if prev.val > current.val:
+                        if not first:
+                            first = prev
+                        second = current
+                    prev = current
+                    current = current.right
+
+        if first and second:
+            first.val, second.val = second.val, first.val
+```
+
+[230. Kth Smallest Element in a BST](https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/)
+
+```python
+class Solution:
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        current = root
+        count = 0
+
+        while current:
+            if not current.left:
+                count += 1
+                if count == k:
+                    return current.val
+                current = current.right
+            else:
+                predecessor = current.left
+                while predecessor.right and predecessor.right != current:
+                    predecessor = predecessor.right
+
+                if not predecessor.right:
+                    predecessor.right = current
+                    current = current.left
+                else:
+                    predecessor.right = None
+                    count += 1
+                    if count == k:
+                        return current.val
+                    current = current.right
+        return -1
+```
