@@ -19,6 +19,10 @@ const withMDX = createMDX({
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  images: {
+    domains: ['fonts.googleapis.com', 'fonts.gstatic.com'],
+  },
 }
 
 export default withMDX(config)
+
