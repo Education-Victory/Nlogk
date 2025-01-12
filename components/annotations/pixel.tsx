@@ -46,10 +46,10 @@ const complexityData = {
 },
 "n ≈ 200": {
   sections: [
-    { name: "Floyd Warshall", percentage: 25, color: "#FF6B35" }, // Orange
-    { name: "3D-DP", percentage: 25, color: "#F7C59F" }, // Peach
-    { name: "All Pairs SP", percentage: 25, color: "#EFEFD0" }, // Cream
-    { name: "Three Pointers", percentage: 25, color: "#004E89" } // Deep Blue
+    { name: "3D-DP", percentage: 25, color: "#F7C59F" },
+    { name: "Floyd Warshall", percentage: 25, color: "#EFEFD0" },
+    { name: "All Pairs SP", percentage: 25, color: "#FF6B35" },
+    { name: "Three Pointers", percentage: 25, color: "#912b06" }
   ],
   complexity: "O(n³)"
 },
