@@ -17,8 +17,8 @@ import { Scrollycoding } from "@/components/scrollycoding"
 
 
 ```python !code
+# !mark(1:5) gold
 text = "Hello, World!"
-# !mark(1:4) gold
 upper_text = text.upper()      # "HELLO, WORLD!"
 lower_text = text.lower()      # "hello, world!"
 title_text = text.title()      # "Hello, World!"
@@ -34,6 +34,11 @@ swapped_case = text.swapcase() # "hELLO, wORLD!"
 
 ```python !code
 text = "Hello, World!"
+upper_text = text.upper()      # "HELLO, WORLD!"
+lower_text = text.lower()      # "hello, world!"
+title_text = text.title()      # "Hello, World!"
+swapped_case = text.swapcase() # "hELLO, wORLD!"
+
 # !mark(1:5) gold
 starts_with_hello = text.startswith("Hello")  # True
 ends_with_exclamation = text.endswith("!")    # True
@@ -50,6 +55,17 @@ count_l = text.count('l')                     # 3
 
 ```python !code
 text = "Hello, World!"
+upper_text = text.upper()      # "HELLO, WORLD!"
+lower_text = text.lower()      # "hello, world!"
+title_text = text.title()      # "Hello, World!"
+swapped_case = text.swapcase() # "hELLO, wORLD!"
+
+starts_with_hello = text.startswith("Hello")  # True
+ends_with_exclamation = text.endswith("!")    # True
+contains_world = "World" in text              # True
+find_position = text.find("World")            # 7
+count_l = text.count('l')                     # 3
+
 # !mark(1:3) gold
 words = text.split(", ")                    # ["Hello", "World!"]
 joined_text = " - ".join(words)             # "Hello - World!"
@@ -64,6 +80,22 @@ split_lines = "Hello\nWorld".splitlines()   # ["Hello", "World"]
 - `center():` Centers the string within a specified width, filling the remaining space with a specified character.
 
 ```python !code
+text = "Hello, World!"
+upper_text = text.upper()      # "HELLO, WORLD!"
+lower_text = text.lower()      # "hello, world!"
+title_text = text.title()      # "Hello, World!"
+swapped_case = text.swapcase() # "hELLO, wORLD!"
+
+starts_with_hello = text.startswith("Hello")  # True
+ends_with_exclamation = text.endswith("!")    # True
+contains_world = "World" in text              # True
+find_position = text.find("World")            # 7
+count_l = text.count('l')                     # 3
+
+words = text.split(", ")                    # ["Hello", "World!"]
+joined_text = " - ".join(words)             # "Hello - World!"
+split_lines = "Hello\nWorld".splitlines()   # ["Hello", "World"]
+
 # !mark(1:5) gold
 text = "   Hello, World!   "
 stripped_text = text.strip()      # "Hello, World!"
@@ -80,11 +112,32 @@ centered_text = text.center(20, '*')         # "***Hello, World!***"
 - `isdigit():` checks if all characters in the string are digits.. 
 
 ```python !code
-# !mark(1:4) gold
-text = "Python"
-length = len(text)             # 6
-is_alpha = user_input.isalpha()      # True
-is_digit = user_input.isdigit()      # False
+text = "Hello, World!"
+upper_text = text.upper()      # "HELLO, WORLD!"
+lower_text = text.lower()      # "hello, world!"
+title_text = text.title()      # "Hello, World!"
+swapped_case = text.swapcase() # "hELLO, wORLD!"
+
+starts_with_hello = text.startswith("Hello")  # True
+ends_with_exclamation = text.endswith("!")    # True
+contains_world = "World" in text              # True
+find_position = text.find("World")            # 7
+count_l = text.count('l')                     # 3
+
+words = text.split(", ")                    # ["Hello", "World!"]
+joined_text = " - ".join(words)             # "Hello - World!"
+split_lines = "Hello\nWorld".splitlines()   # ["Hello", "World"]
+
+text = "   Hello, World!   "
+stripped_text = text.strip()      # "Hello, World!"
+left_stripped = text.lstrip()     # "Hello, World!   "
+right_stripped = text.rstrip()    # "   Hello, World!"
+centered_text = text.center(20, '*')         # "***Hello, World!***"
+
+# !mark(1:3) gold
+length = len(text)             # 19
+is_alpha = text.isalpha()      # False (Contain whitespace)
+is_digit = text.isdigit()      # False
 ```
 
 
