@@ -5,9 +5,10 @@
   "root": true,
   "pages": [
     "---One Day Before Interview---",
+    "oneday",
     "cheatsheet",
-    "---One Week Before Interview---",
     "snippet",
+    "---One Week Before Interview---",
     "template",
     "pattern",
     "special"

@@ -19,11 +19,9 @@ numbers = [3, 1, 4, 2]
 # !mark(1:2) gold
 numbers.sort()                                   
 # numbers = [1, 2, 3, 4]
-
-# !mark(1:2) gold
+# !mark(1:2) pink
 sorted_numbers = sorted(numbers)                
 # sorted_numbers = [1, 2, 3, 4]
-
 # !mark(1:2) gold
 sorted_numbers = sorted(numbers, reverse=True)  
 # sorted_numbers = [4, 3, 2, 1]
@@ -39,8 +37,7 @@ fruits = ["apple", "banana", "kiwi"]
 # !mark(1:2) gold
 sorted_by_length = sorted(fruits, key=len)
 # ['kiwi', 'apple', 'banana']
-
-# !mark(1:2) gold
+# !mark(1:2) pink
 sorted_alpha = sorted(fruits)                 
 # ['apple', 'banana', 'kiwi']
 ```
@@ -56,22 +53,20 @@ sorted_alpha = sorted(fruits)
 tuples = [(1, 'b'), (2, 'a'), (3, 'c')]
 sorted_tuples = sorted(tuples, key=lambda x: x[1])
 # Output: [(2, 'a'), (1, 'b'), (3, 'c')]
-
-# !mark(1:4) gold
+# !mark(1:4) pink
 # Sort by age
 dicts = [{'name': 'Alice', 'age': 30}, {'name': 'Bob', 'age': 25}]
 sorted_dicts = sorted(dicts, key=lambda x: x['age'])
 # Output: [{'name': 'Bob', 'age': 25}, {'name': 'Alice', 'age': 30}]
-
 # !mark(1:8) gold
 # Sort by custom_sort()
-def custom_sort(x):
-    return x[1] - x[0]
-
 my_list_custom = [(2, 3), (1, 4), (5, 2)]
 # Sort using custom function
 sorted_custom = sorted(my_list_custom, key=custom_sort)
 # Output: [(5, 2), (2, 3), (1, 4)]
+
+def custom_sort(x):
+    return x[1] - x[0]
 ```
 
 </Scrollycoding>

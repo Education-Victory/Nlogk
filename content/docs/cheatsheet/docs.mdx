@@ -1,0 +1,53 @@
+---
+title: Docs Template
+description: Docs Template
+full: true
+---
+
+Make sure to write down this template in IDE or docs during the interview:
+
+Given promblem: [Two Sum](https://leetcode.com/problems/two-sum/)
+
+```python
+Keypoints: 
+- given a unsorted list array and target T
+- return two index,  array[i] + array[j] = T
+- exactly one solution
+
+Input: 
+nums: List[int]
+target: int
+
+Output:
+[i, j]: List[int]
+
+Constraints:
+1 ≤ nums.length < 10^6
+0 ≤ nums[i] < 10^8
+
+General TestCase:
+nums = [2,7,11,15], target = 9 return [0, 1]
+nums = [3, 3], T = target return [0, 1]
+
+Edgecase:
+None
+
+Solution1: 
+Idea: Two for loop to check all possible answer 
+Time: O(n^2)
+Space: O(1)
+
+Solution2:
+Idea: Use Hashmap to record element seen before
+Time: O(n)
+Space: O(n)
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        hashmap = dict()
+        for i, num in enumerate(nums):
+            if target - num in hashmap:
+                return [hashmap[target - num], i]
+            hashmap[nums[i]] = i
+        return []
+```

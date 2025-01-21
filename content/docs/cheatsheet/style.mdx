@@ -1,0 +1,261 @@
+---
+title: Coding Style
+description: Coding Style
+full: true
+---
+
+### Naming Conventions
+Use `CamelCase` for class names and `snake_case` for functions and variable names.
+<div className="grid grid-cols-2 gap-4">
+  <div>
+    ✅ Do:
+    ```python
+    class MyClass:
+        def my_function():
+            total_sum = 42
+    ```
+  </div>
+<div>
+
+❌ Don't:
+```python
+class myclass:
+    def MyFunction():
+        MyVariable = 42
+```
+</div>
+</div>
+
+### Indentation
+Use 4 spaces per indentation level. Never use tabs.
+<div className="grid grid-cols-2 gap-4">
+<div>
+✅ Do:
+```python
+def function():
+    if condition:
+        do_something()
+```
+</div>
+<div>
+
+❌ Don't:
+```python
+def function():
+  if condition:
+      do_something()  # mixing spaces
+```
+</div>
+</div>
+
+### Line Breaks
+Break lines before binary operators for better readability.
+<div className="grid grid-cols-2 gap-4">
+<div>
+✅ Do:
+```python
+total = (
+    first_variable
+    + second_variable
+    + third_variable
+)
+```
+</div>
+<div>
+
+❌ Don't:
+```python
+total = (first_variable +
+         second_variable +
+         third_variable)
+```
+</div>
+</div>
+
+### Blank Lines
+Use two blank lines between top-level items, one within classes.
+<div className="grid grid-cols-2 gap-4">
+<div>
+✅ Do:
+```python
+def first_function():
+    pass
+
+
+class MyClass:
+    def method1(self):
+        pass
+
+    def method2(self):
+        pass
+```
+</div>
+<div>
+
+❌ Don't:
+```python
+def first_function():
+    pass
+class MyClass:
+    def method1(self):
+        pass
+    def method2(self):
+        pass
+```
+</div>
+</div>
+
+### Whitespace
+Use one space around binary operators, maintaining consistency.
+<div className="grid grid-cols-2 gap-4">
+<div>
+✅ Do:
+```python
+num += 1
+x = x * 2 - 1
+c = (a + b) * (a - b)
+```
+</div>
+<div>
+
+❌ Don't:
+```python
+num+=1
+x=x*2-1
+c=(a+b)*(a-b)
+```
+</div>
+</div>
+### Nested Functions
+Place nested functions directly after the first line of the main function, before any other code.
+<div className="grid grid-cols-2 gap-4">
+<div>
+✅ Do:
+```python
+def main_function(data):
+    def sub_function(x):
+        return x * 2
+
+    result = []
+    return result
+```
+</div>
+<div>
+
+❌ Don't:
+```python
+def main_function(data):
+    # Don't put code before nested function
+    result = []
+    
+    def sub_function(x):  # Wrong placement
+        return x * 2
+        
+    return result
+```
+</div>
+</div>
+### List Comprehensions
+Use list comprehensions for simple transformations only. Prefer regular loops for complex logic.
+<div className="grid grid-cols-2 gap-4">
+<div>
+✅ Do:
+```python
+# Simple transformation
+squares = [x * x for x in numbers]
+
+# Complex logic belongs in a loop
+results = []
+for x in numbers:
+    if complex_condition(x):
+        y = complex_calculation(x)
+        results.append(y)
+```
+</div>
+<div>
+
+❌ Don't:
+```python
+# Too complex for comprehension
+squares = [complex_calculation(x) 
+          for x in numbers 
+          if complex_condition(x)]
+```
+</div>
+</div>
+
+### Default Arguments
+Never use mutable objects as default arguments.
+<div className="grid grid-cols-2 gap-4">
+<div>
+
+
+✅ Do:
+```python
+def my_function(items=None):
+    if items is None:
+        items = []
+    items.append(1)
+    return items
+```
+</div>
+<div>
+
+❌ Don't:
+```python
+def my_function(items=[]):  # Bug: shared list
+    items.append(1)
+    return items
+```
+</div>
+</div>
+
+### Context Managers
+Use context managers (`with` statement) for managing resources.
+<div className="grid grid-cols-2 gap-4">
+<div>
+✅ Do:
+```python
+with open('file.txt', 'r') as f:
+    content = f.read()
+    # file automatically closes
+```
+</div>
+<div>
+
+❌ Don't:
+```python
+f = open('file.txt', 'r')
+content = f.read()
+f.close()  # Might not close if error occurs
+```
+</div>
+</div>
+
+### Error Handling
+Be specific with exceptions and keep try blocks small.
+<div className="grid grid-cols-2 gap-4">
+<div>
+✅ Do:
+```python
+try:
+    value = int(user_input)
+except ValueError:
+    print("Please enter a valid number")
+else:
+    process_number(value)
+```
+</div>
+<div>
+
+❌ Don't:
+```python
+try:
+    value = int(user_input)
+    process_number(value)
+    save_to_database(value)
+except Exception as e:  # Too broad
+    print(f"Error: {e}")
+```
+</div>
+</div>
