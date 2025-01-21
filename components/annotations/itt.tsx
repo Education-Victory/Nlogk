@@ -34,6 +34,10 @@ const DataCard: React.FC<DataCardProps> = ({ type, title, questions, points }) =
 export const DataStructureGuide: React.FC = () => {
   return (
     <div className={styles.container}>
+      <div className={styles.titleWrapper}>
+        <h1 className={styles.pixelTitle}>Input Considerations Guide</h1>
+        <div className={styles.pixelUnderline}></div>
+      </div>
       <div className={styles.cardGrid}>
         <DataCard
           type="integer"

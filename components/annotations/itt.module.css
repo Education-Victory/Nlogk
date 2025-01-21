@@ -1,7 +1,51 @@
-/* DataStructureGuide.module.css */
+.titleWrapper {
+    text-align: center;
+    margin: 10px 0;
+    padding: 20px;
+  }
+  
+  .pixelTitle {
+    font-family: 'Press Start 2P', cursive;
+    color: #2c3e50;
+    font-size: 1.8em;
+    text-transform: uppercase;
+    text-shadow: 
+      2px 2px 0 #e0e0e0,
+      4px 4px 0 #888;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    padding: 10px;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .pixelUnderline {
+    height: 4px;
+    background: repeating-linear-gradient(
+      90deg,
+      #2c3e50,
+      #2c3e50 8px,
+      transparent 8px,
+      transparent 16px
+    );
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  .pixelUnderline::before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
 .container {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 40px;
     position: relative;
