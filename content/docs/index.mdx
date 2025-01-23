@@ -4,13 +4,16 @@ description: Your first document
 ---
 
 import { Step, Steps } from 'fumadocs-ui/components/steps';
-import { Timer, BookCheck, BrainCircuit, Code2, Lightbulb } from 'lucide-react'
+import styles from '@/components/annotations/title.module.css'
+import { Lightbulb } from 'lucide-react'
 
 
-## Last minute preparation for your coding interview.
 
-<hr/>
-## <Lightbulb className="inline-block ml-2" /> One Day Before the Interview
+## <span className={styles.pixelTitleMinimal}>Last minute preparation for your coding interview.</span>
+
+<br />
+
+## One Day Before Interview
 
 ### Before
  
@@ -93,18 +96,40 @@ import { Timer, BookCheck, BrainCircuit, Code2, Lightbulb } from 'lucide-react'
  
 </Steps>
 
+<hr />
 
-### One Week Before the Interview
-- Code Snippets: Handy snippets for frequently used API and data structures
-- Code Templates: Predefined structures for common coding problems
-- Code Patterns: A collection of proven problem-solving patterns that can be applied to various coding challenges
-- Special Algorithms: A focused review of unique or advanced algorithms that may come up in your interview
+## One Week Before Interview
+<Steps>
+<Step>
+ 
+### Code Templates
+- Review code templates, common mistakes and issues and consideration ([details →](/template/binary_search))
+- Solve the related problems using code templates
 
+</Step>
+
+<Step>
+
+### Code Patterns
+- Learn code patterns and solve related problems ([details →](/pattern/stock))
+ 
+</Step>
+
+<Step>
+
+### Special Algorithms
+- Review special algorithms, common mistakes and issues and consideration ([details →](/special/quickselect))
+- Solve the related problems using special algorithm templates
+ 
+</Step>
+
+ 
+</Steps>
 
 ## Contact
 
-contact@osjobs.net
+https://osjobs.net and contact at osjobs.net
 
-## Thanks
+## Thank you
 
 *This project is inspired by https://gpt.pomb.us/*

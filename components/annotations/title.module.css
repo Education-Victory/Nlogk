@@ -1,0 +1,25 @@
+/* Option 1: Minimal Pixel */
+.pixelTitleMinimal {
+  font-family: monospace;
+  font-size: 1.5rem;
+  color: #2a2a2a;
+  border: 3px solid #2a2a2a;
+  padding: 4px 8px;
+  display: inline-block;
+  background: #fff;
+  box-shadow: 3px 3px 0 #2a2a2a;
+}
+
+
+/* Option 3: Double Border Minimal */
+.pixelTitleDouble {
+  font-family: monospace;
+  font-size: 1.5rem;
+  color: #333333;
+  background: #ffffff;
+  padding: 4px 12px;
+  border: 2px solid #333333;
+  outline: 1px solid #333333;
+  outline-offset: 3px;
+  display: inline-block;
+}
