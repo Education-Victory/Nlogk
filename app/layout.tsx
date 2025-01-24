@@ -5,8 +5,9 @@ import type { ReactNode } from "react"
 import { DocsLayout } from "fumadocs-ui/layout"
 import { docsOptions } from "./layout.config"
 import Script from "next/script"
-import { GA_MEASUREMENT_ID } from './gtag'
 
+
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-XXXXXXXXXX'
 
 const inter = Inter({
   subsets: ["latin"],
